@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% block title %}Accounts{% endblock %}
+{% block body %}
+<h1>Accounts</h1>
+{% if created %}
+<div class="flash info">Pass these on now; they are not shown again. Users must change the password at first login.
+<table>{% for u, pw in created %}<tr><td><code>{{ u }}</code></td><td><code>{{ pw }}</code></td></tr>{% endfor %}</table></div>
+{% endif %}
+<form method="post" class="card row">
+  <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="action" value="create">
+  <label>Account <input name="username" required pattern="[a-z0-9][a-z0-9._-]{1,39}"></label>
+  <label>Name <input name="name"></label>
+  <label class="check"><input type="checkbox" name="is_admin" value="1"> manages accounts</label>
+  <button class="primary">Create</button>
+</form>
+<p class="small muted">Editing rules is governed by OWNERS.yaml files. Accounts listed under <code>admins.accounts</code> in <code>config/platform.yaml</code> may edit everything.</p>
+<table class="list">
+<tr><th>Account</th><th>Name</th><th>Role</th><th>Status</th><th></th></tr>
+{% for u in users %}
+<tr class="{{ '' if u.active else 'muted' }}"><td><code>{{ u.username }}</code></td><td>{{ u.name }}</td>
+  <td>{{ 'account admin' if u.is_admin else '' }}</td>
+  <td>{{ 'active' if u.active else 'disabled' }}{{ ' · must change password' if u.must_change }}</td>
+  <td class="actions">
+    {% for act, label in [('reset','Reset password'),('toggle','Disable' if u.active else 'Enable'),('admin','Revoke admin' if u.is_admin else 'Make admin')] %}
+    <form method="post" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="username" value="{{ u.username }}"><button name="action" value="{{ act }}" class="small">{{ label }}</button></form>
+    {% endfor %}
+  </td></tr>
+{% endfor %}
+</table>
+{% endblock %}

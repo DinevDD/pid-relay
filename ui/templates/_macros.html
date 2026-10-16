@@ -1,0 +1,30 @@
+{% macro crumbs(ns) -%}
+<div class="crumbs"><a href="{{ url_for('index') }}">rules</a>
+{%- for a in ancestors(ns)[1:] %} / <a href="{{ url_for('namespace', path=a) }}">{{ a.rsplit('/',1)[-1] }}</a>{% endfor %}</div>
+{%- endmacro %}
+
+{% macro report(rep) -%}
+{% if rep %}
+<section class="report {{ 'ok' if rep.ok else 'bad' }}">
+  <h3>{{ 'All checks passed' if rep.ok else 'Problems found' }}</h3>
+  {% if rep.fatal %}<pre class="err">{{ rep.fatal }}</pre>{% endif %}
+  {% if rep.issues or rep.broken %}
+  <table class="issues"><tr><th></th><th>Where</th><th>Message</th></tr>
+    {% for b in rep.broken %}<tr class="error"><td>error</td><td><code>rules/{{ b[0] }}/.htaccess</code></td><td>Apache rejects this file: {{ b[1] }}</td></tr>{% endfor %}
+    {% for i in rep.issues %}<tr class="{{ i.level }}"><td>{{ i.level }}</td><td><code>{{ i.file }}{% if i.line %}:{{ i.line }}{% endif %}</code></td><td>{{ i.msg }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% if rep.results %}
+  <table class="results"><tr><th></th><th>Test</th><th>Accept</th><th>Got</th><th></th></tr>
+    {% for r in rep.results %}
+    <tr class="{{ 'pass' if r.ok else 'fail' }}"><td>{{ 'PASS' if r.ok else 'FAIL' }}</td>
+      <td>{{ r.name }}<div class="muted small">{{ r.request }}</div></td>
+      <td><code>{{ r.accept or '—' }}</code></td>
+      <td>{{ r.status }} <span class="small">{{ r.location or '' }}</span></td>
+      <td class="small">{{ r.problems|join('; ') }}</td></tr>
+    {% endfor %}
+  </table>
+  {% elif not rep.fatal %}<p class="muted">No tests in this namespace.</p>{% endif %}
+</section>
+{% endif %}
+{%- endmacro %}

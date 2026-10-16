@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}Submissions{% endblock %}
+{% block body %}
+<h1>Submissions</h1>
+<table class="list">
+<tr><th>When</th><th>Account</th><th>Namespace</th><th>Summary</th><th>Status</th></tr>
+{% for r in rows %}
+<tr><td class="small">{{ fmt_time(r.created) }}</td><td>{{ r.username }}</td>
+  <td><a href="{{ url_for('namespace', path=r.ns) }}">{{ r.ns }}</a></td><td>{{ r.summary }}</td>
+  <td>{% if r.mode == 'pr' %}
+      <a href="{{ r.pr_url }}">PR #{{ r.pr_number }}</a>
+      {% set st = status.get(r.id, {}) %}
+      <span class="badge {{ 'ok' if (st.state or r.state) == 'merged' }}">{{ st.state or r.state }}</span>
+      {% if st.checks %}<span class="badge {{ 'ok' if st.checks == 'passed' else ('bad' if st.checks == 'failed') }}">checks {{ st.checks }}</span>{% endif %}
+    {% else %}<span class="badge ok">committed</span> <code class="small">{{ (r.commit_sha or '')[:10] }}</code>{% endif %}</td></tr>
+{% else %}<tr><td colspan="5" class="muted">Nothing submitted yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

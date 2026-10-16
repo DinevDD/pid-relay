@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block title %}Course groups{% endblock %}
+{% block body %}
+<h1>Set up course groups</h1>
+<p>Creates one sub-namespace per group (with an OWNERS.yaml) in a single change, and one UI account per group.</p>
+<form method="post" class="card narrow">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <label>Parent namespace <input name="parent" value="{{ form.parent }}" placeholder="FAIR-course-UT/2027" required>
+    <span class="small muted">Created implicitly if it does not exist yet; its parent's owners keep control.</span></label>
+  <div class="row">
+    <label>Number of groups <input name="count" type="number" min="1" max="200" value="{{ form.count }}"></label>
+    <label>First number <input name="start" type="number" min="0" value="{{ form.start }}"></label>
+    <label>Name pattern <input name="pattern" value="{{ form.pattern }}"></label>
+  </div>
+  <label>Account prefix <input name="account_prefix" value="{{ form.account_prefix }}" placeholder="default: last part of the parent, e.g. 2027-">
+    <span class="small muted">Accounts become e.g. <code>2027-group01</code>, so they never clash with last year's.</span></label>
+  <button class="primary">Create groups</button>
+</form>
+{% endblock %}

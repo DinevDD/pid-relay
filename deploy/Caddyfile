@@ -1,0 +1,27 @@
+# Front proxy for fair-testbed. Obtains Let's Encrypt certificates
+# automatically (needs ports 80 and 443 reachable from the internet).
+{
+	email {$ACME_EMAIL}
+}
+
+{$PIDRELAY_HOST} {
+	encode gzip
+
+	# Redirect service: https://w3id.org/<prefix>/... arrives here as /pid/<prefix>/...
+	handle /pid/* {
+		reverse_proxy redirector:80
+	}
+
+	# Management UI
+	redir /pid-manager /pid-manager/
+	handle /pid-manager/* {
+		reverse_proxy ui:8000
+	}
+
+	# Other testbed services go here, e.g.
+	# handle /fdp/* { reverse_proxy fdp:80 }
+
+	handle {
+		respond "fair-testbed" 404
+	}
+}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}{% from "_macros.html" import crumbs, report with context %}
+{% block title %}Edit {{ ns }}{% endblock %}
+{% block body %}
+{{ crumbs(ns) }}
+<h1>Edit <code>{{ ns }}</code></h1>
+<p class="small">Patterns in <code>RewriteRule</code> match the part of the identifier <em>after</em>
+<code>{{ w3id_url(ns) }}</code>, without a leading slash. The same file would work unchanged on w3id.org.</p>
+
+<details class="card builder" open>
+  <summary><strong>Rule helper</strong>: describe a redirect, get the Apache lines and a test</summary>
+  <div class="grid">
+    <label>Identifier path after <code>{{ w3id_url(ns) }}</code>
+      <input id="b-path" placeholder="dataset/{id}"><span class="small muted">Use <code>{name}</code> for a variable part, <code>{name*}</code> for "the rest, including slashes". Leave empty for the namespace itself.</span></label>
+    <label>Only for content type
+      <select id="b-type">
+        <option value="">any (no condition)</option>
+        <option value="text/html">text/html (browsers)</option>
+        <option value="text/turtle">text/turtle</option>
+        <option value="application/ld+json">application/ld+json</option>
+        <option value="application/rdf+xml">application/rdf+xml</option>
+        <option value="application/n-triples">application/n-triples</option>
+        <option value="application/json">application/json</option>
+        <option value="custom">custom…</option>
+      </select>
+      <input id="b-type-custom" placeholder="e.g. application/trig" hidden></label>
+    <label>Redirect to
+      <input id="b-target" placeholder="https://example.org/data/{id}.ttl"><span class="small muted">Absolute URL; reuse the <code>{name}</code> variables.</span></label>
+    <label>Status
+      <select id="b-status"><option>303</option><option>302</option><option>307</option><option>301</option></select>
+      <span class="small muted">303 for "description of a thing", 302 for a plain move, 301 only if it will never change.</span></label>
+  </div>
+  <button type="button" id="b-add">Add rule and test</button>
+  <span class="small muted">Content-type specific rules are inserted before generic ones for the same path, because the first matching rule wins.</span>
+  <pre id="b-preview" class="code small" hidden></pre>
+</details>
+
+<form method="post" id="editor">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  {% for n in names %}
+  <label class="file"><code>{{ n }}</code>
+    {% if n == 'OWNERS.yaml' %}<span class="small muted">accounts: management UI accounts · github: GitHub logins (for pull requests)</span>{% endif %}
+    {% if n == 'tests.yaml' %}<span class="small muted">required when there is a .htaccess; each test is one request and the redirect you expect</span>{% endif %}
+    <textarea name="{{ n }}" id="f-{{ loop.index }}" data-name="{{ n }}" spellcheck="false" rows="{{ 16 if n == '.htaccess' else (12 if n == 'tests.yaml' else 5) }}">{{ files[n] }}</textarea>
+  </label>
+  {% endfor %}
+  <label>Change summary <input name="summary" value="{{ summary }}" maxlength="120" placeholder="e.g. Add content negotiation for datasets"></label>
+  <div class="actions">
+    <button name="action" value="validate">Validate</button>
+    <button name="action" value="submit" class="primary">Validate and {{ 'open pull request' if pr_mode else 'publish' }}</button>
+    <a href="{{ url_for('namespace', path=ns) }}">Cancel</a>
+  </div>
+</form>
+{{ report(rep) }}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='builder.js') }}" data-ns="{{ ns }}"></script>{% endblock %}

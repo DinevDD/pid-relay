@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% from "_macros.html" import crumbs, report with context %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+{{ crumbs(ns) }}
+<h1>{{ title }}</h1>
+{{ report(rep) }}
+<p><a href="javascript:history.back()">Back</a></p>
+{% endblock %}

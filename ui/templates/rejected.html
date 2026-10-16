@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Rejected commit{% endblock %}
+{% block body %}
+<h1>Commit not deployed</h1>
+<p>{{ st.error }}. The previously deployed version keeps running. Fix the problems below on the branch.</p>
+<pre class="code">{{ st.rejected_report }}</pre>
+{% endblock %}

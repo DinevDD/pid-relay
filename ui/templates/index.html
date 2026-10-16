@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% block title %}Namespaces{% endblock %}
+{% block body %}
+<h1>W3ID prefixes served here</h1>
+<section class="status card">
+  <div><span class="label">Deployed</span>
+    {% if deployed %}<code>{{ deployed.sha[:10] }}</code> · {{ deployed.date }} · {{ deployed.subject }}{% else %}<em>nothing deployed yet</em>{% endif %}</div>
+  <div><span class="label">Last sync</span> {{ fmt_time(state.last_check) }}
+    {% if state.error %}<span class="badge bad">{{ state.error }}</span>
+      {% if user and user.is_admin and state.rejected_report %}<a href="{{ url_for('admin_rejected') }}">details</a>{% endif %}
+    {% else %}<span class="badge ok">ok</span>{% endif %}</div>
+  <div><span class="label">Changes</span> {{ 'pull requests on ' ~ settings.github_repo if pr_mode else 'committed directly to ' ~ settings.branch }}</div>
+  {% if user and user.is_admin %}
+  <form method="post" action="{{ url_for('admin_sync') }}" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Sync now</button></form>
+  {% endif %}
+</section>
+
+{% if mine %}
+<h2>Yours</h2>
+<ul class="chips">{% for n in mine %}<li><a href="{{ url_for('namespace', path=n) }}">{{ n }}</a></li>{% endfor %}</ul>
+{% endif %}
+
+<table class="list">
+  <tr><th>Prefix</th><th>Identifier base</th><th>Owners</th><th>Sub-namespaces</th><th>Rule files</th></tr>
+  {% for p in prefixes %}
+  <tr><td><a href="{{ url_for('namespace', path=p.ns) }}"><strong>{{ p.ns }}</strong></a></td>
+      <td><code>{{ w3id_url(p.ns) }}</code></td>
+      <td class="small">{{ (p.owners.accounts|sort|join(', ')) or '—' }}</td>
+      <td>{{ p.children }}</td><td>{{ p.rules }}</td></tr>
+  {% else %}<tr><td colspan="5" class="muted">No prefixes yet.</td></tr>{% endfor %}
+</table>
+{% if is_rule_admin %}<p><a class="button" href="{{ url_for('new_child', path='') }}">New W3ID prefix</a></p>{% endif %}
+{% endblock %}

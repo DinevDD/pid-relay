@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% block title %}Resolve{% endblock %}
+{% block body %}
+<h1>Resolve an identifier</h1>
+<form method="get" class="card resolve">
+  <label>Identifier <input name="pid" value="{{ pid }}" placeholder="https://w3id.org/FAIR-course-UT/2026/group00/dataset/rivers" required></label>
+  <div class="row">
+    <label>Accept
+      <select name="accept">{% for v, l in presets %}<option value="{{ v }}" {{ 'selected' if v == accept }}>{{ l }}</option>{% endfor %}</select>
+    </label>
+    <label>or custom Accept <input name="accept_custom" value="{{ accept if accept not in presets|map('first') else '' }}" placeholder="text/turtle;q=0.9, */*;q=0.1"></label>
+    <button class="primary">Resolve</button>
+  </div>
+  <p class="small muted">Follows the chain hop by hop without loading the final page: w3id.org, then this relay, then the target.</p>
+</form>
+{% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+{% if hops %}
+<ol class="hops">
+  {% for h in hops %}
+  <li class="{{ 'redir' if h.status and 300 <= h.status < 400 else ('ok' if h.status and h.status < 300 else 'bad') }}">
+    <div><span class="badge">{{ h.status or 'error' }}</span>
+      {% if h.via == 'w3id' %}<span class="tag">w3id.org</span>{% elif h.via == 'relay' %}<span class="tag">this relay</span>{% endif %}
+      <code>{{ h.url }}</code></div>
+    {% if h.location %}<div class="small">→ Location: <code>{{ h.location }}</code></div>{% endif %}
+    {% if h.vary %}<div class="small muted">Vary: {{ h.vary }}</div>{% endif %}
+    {% if h.ctype and not h.location %}<div class="small muted">Content-Type: {{ h.ctype }}</div>{% endif %}
+    {% if h.error %}<div class="small err">{{ h.error }}</div>{% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% endif %}
+{% endblock %}

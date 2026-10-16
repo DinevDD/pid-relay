@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% from "_macros.html" import crumbs with context %}
+{% block title %}New namespace{% endblock %}
+{% block body %}
+{% if ns %}{{ crumbs(ns) }}{% endif %}
+<h1>{{ 'New sub-namespace of ' ~ ns if ns else 'New W3ID prefix' }}</h1>
+<form method="post" class="card narrow">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <label>Name <input name="name" value="{{ form.name }}" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*" placeholder="{{ 'group07' if ns else 'my-project' }}">
+    <span class="small muted">Identifiers will start with <code>https://w3id.org/{{ ns ~ '/' if ns }}&lt;name&gt;/</code></span></label>
+  <label>Owner accounts (UI) <input name="accounts" value="{{ form.accounts }}" placeholder="group07, alice"></label>
+  <label>Owner GitHub logins <input name="github" value="{{ form.github }}" placeholder="optional"></label>
+  <label>Description <textarea name="readme" rows="3">{{ form.readme }}</textarea></label>
+  {% if not ns %}<p class="small">After this is merged, register the forwarding rule shown on the prefix page at w3id.org.</p>{% endif %}
+  <button class="primary">Create</button>
+</form>
+{% endblock %}

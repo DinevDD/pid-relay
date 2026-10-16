@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% from "_macros.html" import crumbs with context %}
+{% block title %}{{ ns }}{% endblock %}
+{% block body %}
+{{ crumbs(ns) }}
+<h1>{{ ns }}</h1>
+<section class="card urls">
+  <div><span class="label">Identifiers</span> <code>{{ w3id_url(ns) }}…</code></div>
+  <div><span class="label">Served at</span> <code>{{ relay_url(ns) }}…</code></div>
+  <div><span class="label">Owners here</span> {{ (own.accounts|sort|join(', ')) or '—' }}
+     {% if own.github %}<span class="muted small">(GitHub: {{ own.github|sort|join(', ') }})</span>{% endif %}</div>
+  <div><span class="label">All who may edit</span> <span class="small">{{ (eff.accounts|sort|join(', ')) or '—' }} + platform admins</span></div>
+  {% if last %}<div><span class="label">Last change</span> <span class="small">{{ last }}</span></div>{% endif %}
+  <div class="actions">
+    {% if can_edit %}<a class="button primary" href="{{ url_for('edit', path=ns) }}">Edit rules</a>{% endif %}
+    <form method="post" action="{{ url_for('run_ns_tests', path=ns) }}" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Run tests</button></form>
+    <a class="button" href="{{ url_for('resolve', pid=w3id_url(ns)) }}">Resolve…</a>
+    {% if can_children %}<a class="button" href="{{ url_for('new_child', path=ns) }}">New sub-namespace</a>{% endif %}
+  </div>
+</section>
+
+{% if children %}
+<h2>Sub-namespaces</h2>
+<ul class="chips">{% for c in children %}<li><a href="{{ url_for('namespace', path=ns ~ '/' ~ c) }}">{{ c }}</a></li>{% endfor %}</ul>
+{% endif %}
+
+{% for name in ['.htaccess', 'tests.yaml', 'README.md', 'OWNERS.yaml'] %}
+  {% if files[name] %}<h2><code>{{ name }}</code></h2><pre class="code">{{ files[name] }}</pre>{% endif %}
+{% endfor %}
+{% if not files['.htaccess'] %}<p class="muted">No <code>.htaccess</code> here: requests are handled by the nearest parent that has one, or answered with 404.</p>{% endif %}
+
+{% if w3id_snip %}
+<h2>Rule to register at w3id.org</h2>
+<p class="small">Submit this as <code>{{ ns }}/.htaccess</code> in a pull request to
+<a href="https://github.com/perma-id/w3id.org">perma-id/w3id.org</a>, once. Remove any old sub-directories of the prefix there: on w3id.org a sub-directory's own <code>.htaccess</code> takes precedence over this forwarding rule.</p>
+<pre class="code">{{ w3id_snip }}</pre>
+{% endif %}
+{% endblock %}

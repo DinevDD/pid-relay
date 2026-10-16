@@ -1,0 +1,15 @@
+# pid-relay platform settings. Changes to this file require an admin review
+# (see .github/CODEOWNERS).
+
+# Public base URL of this service. W3ID prefixes redirect to <public_url>/pid/<prefix>/
+public_url: https://fair-testbed.eemcs.utwente.nl
+
+# Platform admins may change anything, including creating new W3ID prefixes.
+admins:
+  github: [CHANGE-ME-your-github-login]   # GitHub logins (for pull requests)
+  accounts: [admin]                       # management UI account names
+
+# GitHub login of the machine account whose token the management UI uses to
+# open pull requests. PRs by this account are attributed via the
+# "Pid-Relay-Account:" commit trailer that the UI writes.
+ui_bot: CHANGE-ME-ui-bot-login

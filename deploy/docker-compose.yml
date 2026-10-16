@@ -1,0 +1,47 @@
+# pid-relay on fair-testbed.eemcs.utwente.nl
+#   cp .env.example .env   # fill it in
+#   docker compose up -d --build
+name: pid-relay
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PIDRELAY_HOST: ${PIDRELAY_HOST}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [redirector, ui]
+
+  redirector:
+    build:
+      context: ..
+      dockerfile: redirector/Dockerfile
+    restart: unless-stopped
+    environment:
+      PIDRELAY_PUBLIC_URL: ${PIDRELAY_PUBLIC_URL}
+    volumes:
+      - deploy:/srv/deploy:ro
+    depends_on: [ui]
+
+  ui:
+    build:
+      context: ..
+      dockerfile: ui/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - deploy:/srv/deploy
+      - uidata:/data
+
+volumes:
+  deploy:      # checkout of the rules repository that is live
+  uidata:      # accounts database, work clone, sync state
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Groups created{% endblock %}
+{% block body %}
+<h1>Groups under {{ par }}</h1>
+<p>{% if res.mode == 'pr' %}Pull request <a href="{{ res.pr_url }}">#{{ res.pr_number }}</a> opened; the namespaces exist once it is merged.{% else %}Committed; live after the next sync.{% endif %}
+The accounts below exist now. Their passwords are shown only once.</p>
+<p><a class="button primary" href="{{ url_for('group_creds_csv') }}">Download as CSV</a> <span class="small muted">(works once)</span></p>
+<table class="list"><tr><th>Account</th><th>Namespace</th><th>Initial password</th></tr>
+{% for a, n, pw in creds %}<tr><td><code>{{ a }}</code></td><td>{{ n }}</td><td><code>{{ pw }}</code></td></tr>{% endfor %}
+</table>
+{% endblock %}
