@@ -26,6 +26,20 @@ jobs:
       - name: Trust the checkout
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      # w3id.org's own contribution checker, so rules here also meet the
+      # rules w3id.org enforces. Needs Node 22.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch the w3id.org checker
+        run: |
+          git clone --quiet --depth 1 --filter=blob:none --sparse \
+            https://github.com/perma-id/w3id.org.git /opt/w3id
+          git -C /opt/w3id sparse-checkout set --no-cone /tools/check/ /.w3id-check.yaml
+          (cd /opt/w3id/tools/check && npm ci --no-audit --no-fund)
+          echo "PIDRELAY_W3ID_CHECK=/opt/w3id/tools/check/bin/w3id-check.js" >> "$GITHUB_ENV"
+
       - name: Toolkit self-tests
         run: python3 -m unittest discover -s tests -v
 

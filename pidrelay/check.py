@@ -6,6 +6,7 @@ import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import w3idcheck
 from .lint import Issue, lint_tree
 from .runner import Httpd, TestResult, probe_namespaces, run_tests
 from .tree import FileSource, effective_owners, governing_ns, load_platform
@@ -19,6 +20,7 @@ class Report:
     results: list[TestResult] = field(default_factory=list)
     broken: list[tuple[str, str]] = field(default_factory=list)
     fatal: str | None = None
+    notes: list[str] = field(default_factory=list)
 
     @property
     def errors(self):
@@ -43,6 +45,7 @@ class Report:
             [r for r in self.results if under(r.ns)],
             [b for b in self.broken if under(b[0])],
             self.fatal,
+            self.notes,
         )
 
     def text(self) -> str:
@@ -62,6 +65,7 @@ class Report:
         lines.append("")
         lines.append(f"{len(self.errors)} error(s), {len(self.issues) - len(self.errors)} warning(s), "
                      f"{n_pass}/{len(self.results)} test(s) passed, {len(self.broken)} broken file(s)")
+        lines += [f"NOTE    {n}" for n in self.notes]
         lines.append("RESULT: " + ("OK" if self.ok else "FAILED"))
         return "\n".join(lines)
 
@@ -73,6 +77,10 @@ def validate(root: Path, public_url: str | None = None, run: bool = True) -> Rep
     public_url = public_url or platform.get("public_url") or "https://localhost"
     rep = Report()
     rep.issues, tests = lint_tree(root)
+    w3_issues, note = w3idcheck.run(root)
+    rep.issues += w3_issues
+    if note:
+        rep.notes.append(note)
     if not run:
         return rep
     try:

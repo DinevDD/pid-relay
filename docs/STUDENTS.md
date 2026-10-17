@@ -61,6 +61,10 @@ RewriteRule ^dataset/([a-z0-9-]+)$ https://example.org/data/$1.jsonld [R=303,L]
 RewriteRule ^dataset/([a-z0-9-]+)$ https://example.org/data/$1.html [R=303,L]
 ```
 
+A request for your namespace without the trailing slash
+(`…/group07`) is first answered with a 301 to `…/group07/`, and then your `^$`
+rule runs. w3id.org behaves the same way.
+
 Rules are tried from top to bottom and the first match wins, because of
 `L`. Put the content-type specific rules **before** the generic one.
 A `RewriteCond` applies only to the `RewriteRule` right after it.
@@ -81,7 +85,15 @@ A `RewriteCond` applies only to the `RewriteRule` right after it.
 To keep the service safe, only redirect-related directives are accepted:
 `RewriteEngine`, `RewriteCond`, `RewriteRule`, `RewriteBase`, `Redirect`,
 `RedirectMatch`, `Header` (only `Vary`, `Link`, `Cache-Control`,
-`Access-Control-*`), `AddType` and `Options +FollowSymLinks`.
+`Access-Control-*`), `AddType` and `<IfModule>`. You do not need any `Options`
+lines. They are accepted, but they do nothing for redirects.
+
+Your files are also checked with [w3id.org's own
+checker](https://w3id.org/docs/rules/). Its findings appear in the report
+marked `[w3id.org …]`, each with a link explaining the rule. Errors block
+publishing, and warnings are worth fixing too. The most common ones are
+comments at the end of a rule line (Apache has no inline comments), `http://`
+targets, and `^(.+)/?$` patterns that swallow the slash.
 
 Targets must be **absolute URLs** (`https://…`). Prefer `RewriteRule` over
 `Redirect`/`RedirectMatch`. Those match the full URL path, which differs

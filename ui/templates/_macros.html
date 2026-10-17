@@ -25,6 +25,7 @@
     {% endfor %}
   </table>
   {% elif not rep.fatal %}<p class="muted">No tests in this namespace.</p>{% endif %}
+  {% for n in rep.notes %}<p class="small muted">{{ n }}</p>{% endfor %}
 </section>
 {% endif %}
 {%- endmacro %}

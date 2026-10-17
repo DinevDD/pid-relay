@@ -133,7 +133,10 @@ def lint_htaccess(text: str, relfile: str, ns: str) -> list[Issue]:
     own_prefix = f"/pid/{ns}/"
     for n, line in logical_lines(text):
         if line.startswith("<"):
-            err(n, "configuration sections such as <If>, <Files> or <IfModule> are not allowed")
+            if re.match(r"^</?IfModule(\s+!?[\w.]+)?\s*>$", line, re.I):
+                continue  # common wrapper in w3id.org files, harmless
+            err(n, "configuration sections such as <If> or <Files> are not allowed "
+                   "(only <IfModule> is accepted)")
             continue
         try:
             toks = tokenize(line)

@@ -10,7 +10,7 @@ on our side and the W3ID maintainers never see them.
 
 ```
 https://w3id.org/FAIR-course-UT/2026/group07/dataset/rivers
-   │  w3id.org/FAIR-course-UT/.htaccess  (one catch-all rule, 302)
+   │  ids/FAIR-course-UT/.htaccess in perma-id/w3id.org  (one catch-all rule, 302)
    ▼
 https://fair-testbed.eemcs.utwente.nl/pid/FAIR-course-UT/2026/group07/dataset/rivers
    │  rules/FAIR-course-UT/2026/group07/.htaccess  (the group's own rules)
@@ -35,24 +35,31 @@ course years and applications.
 | `deploy/` | Docker Compose stack with Caddy (Let's Encrypt) for the server |
 | `.github/workflows/` | `validate` (lint, tests, ownership) and `automerge` |
 | `docs/STUDENTS.md` | Guide to hand to students |
+| `docs/w3id/FAIR-course-UT.htaccess` | The file to submit to w3id.org for the course prefix |
 
 ## How a change goes live
 
 1. Someone edits rules, either in the management UI or as a pull request on GitHub.
 2. **validate** runs on the same Apache build as production. It lints every
-   `.htaccess`, starts a throw-away httpd, runs every `tests.yaml`, probes every
-   directory for files Apache rejects, and checks that the author owns the
-   namespaces the change touches.
+   `.htaccess`, also runs [w3id.org's own contribution
+   checker](https://github.com/perma-id/w3id.org/tree/master/tools/check) on it
+   (so files here meet the rules w3id.org enforces), starts a throw-away httpd,
+   runs every `tests.yaml`, probes every directory for files Apache rejects, and
+   checks that the author owns the namespaces the change touches.
 3. **automerge** merges the pull request if validate passed and nothing outside
    `rules/` changed. Anything else waits for an admin.
 4. The server fetches `main` every minute, validates the new commit again,
    and only then checks it out. A broken commit is never deployed. The previous
    version keeps running and the UI shows why.
 
-Apache itself is locked down as a second line of defence. Contributors can only use redirect directives
-(`RewriteEngine/Cond/Rule/Base`, `Redirect*`, a few `Header`s, `AddType`,
-harmless `Options`). `mod_proxy`, CGI and file serving are not loaded. A bad
-file only breaks its own directory (HTTP 500 there), never the rest.
+Apache itself is locked down as a second line of defence. Contributors can only
+use redirect directives (`RewriteEngine/Cond/Rule/Base`, `Redirect*`, a few
+`Header`s, `AddType`, `<IfModule>`, harmless `Options`). `mod_proxy`, CGI and
+file serving are not loaded. A bad file only breaks its own directory (HTTP 500
+there), never the rest. Where it matters for rules, the relay behaves like the
+w3id.org server configuration in `tools/server/` of that repository. A
+directory URL without its trailing slash gets a 301 to the slashed form, every
+response is CORS-open, and redirects carry no validators.
 
 ### Ownership
 
@@ -130,19 +137,29 @@ Other services on the same host go into `deploy/Caddyfile` as further
 
 ### 3. Register a prefix at w3id.org
 
-The prefix page in the UI shows the exact file, or run
-`python3 -m pidrelay w3id-snippet FAIR-course-UT`:
+Identifiers live under `ids/` in [perma-id/w3id.org](https://github.com/perma-id/w3id.org)
+since October 2026. For `FAIR-course-UT` the ready file is
+`docs/w3id/FAIR-course-UT.htaccess`. It keeps the existing header and contact
+block and replaces the empty rule set with the forwarding rule:
 
 ```apache
 RewriteEngine on
 RewriteRule ^(.*)$ https://fair-testbed.eemcs.utwente.nl/pid/FAIR-course-UT/$1 [R=302,L]
 ```
 
-Submit it as `FAIR-course-UT/.htaccess` in a pull request to
-[perma-id/w3id.org](https://github.com/perma-id/w3id.org). If the prefix already
-has sub-directories there with their own `.htaccess` (for example last year's
-student rules), those keep answering for their paths. Move what should be kept
-into `rules/` here and delete them from w3id.org in the same pull request.
+Submit it as `ids/FAIR-course-UT/.htaccess`. It passes w3id.org's checker
+without findings, and with w3id.org's Apache configuration
+`/FAIR-course-UT/2026/group07/x?y=1` answers `302` to
+`https://fair-testbed.eemcs.utwente.nl/pid/FAIR-course-UT/2026/group07/x?y=1`.
+The only remaining warnings are about the existing `Readme.md` (w3id.org
+prefers `README.md`, ending with a newline). Fixing it in the same pull
+request is optional.
+
+For another prefix, the prefix page in the UI shows the file, or run
+`python3 -m pidrelay w3id-snippet <prefix>`. If a prefix has sub-directories on
+w3id.org with their own `.htaccess`, those keep answering for their paths. Move
+what should be kept into `rules/` here and delete them from w3id.org in the same
+pull request.
 
 ### Yearly routine
 
@@ -159,6 +176,12 @@ The rules stay.
 python3 -m pidrelay test                  # everything, on a local Apache httpd
 python3 -m pidrelay test --only FAIR-course-UT/2026/group00
 python3 -m pidrelay lint                  # static checks only
+
+# optional: include w3id.org's checker (needs Node 22)
+git clone --depth 1 --filter=blob:none --sparse https://github.com/perma-id/w3id.org.git ~/w3id
+git -C ~/w3id sparse-checkout set --no-cone /tools/check/ /.w3id-check.yaml
+(cd ~/w3id/tools/check && npm ci)
+export PIDRELAY_W3ID_CHECK=~/w3id/tools/check/bin/w3id-check.js
 python3 -m unittest discover -s tests     # toolkit self-tests
 ```
 
@@ -188,3 +211,4 @@ python3 -c "from werkzeug.serving import run_simple; from ui.wsgi import applica
 | `PIDRELAY_SECRET_KEY` | generated in `/data` | Session signing key |
 | `PIDRELAY_UI_BASE` | `/pid-manager` | URL path of the UI |
 | `PIDRELAY_COOKIE_SECURE` | `1` | Set `0` only for local HTTP testing |
+| `PIDRELAY_W3ID_CHECK` | set in the image | Path to w3id.org's `w3id-check.js`. Unset means that check is skipped |

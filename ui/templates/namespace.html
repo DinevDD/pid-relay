@@ -30,8 +30,8 @@
 
 {% if w3id_snip %}
 <h2>Rule to register at w3id.org</h2>
-<p class="small">Submit this as <code>{{ ns }}/.htaccess</code> in a pull request to
-<a href="https://github.com/perma-id/w3id.org">perma-id/w3id.org</a>, once. Remove any old sub-directories of the prefix there: on w3id.org a sub-directory's own <code>.htaccess</code> takes precedence over this forwarding rule.</p>
+<p class="small">Submit this once as <code>ids/{{ ns }}/.htaccess</code> in a pull request to
+<a href="https://github.com/perma-id/w3id.org">perma-id/w3id.org</a>, with the contact lines filled in. Remove any old sub-directories of the prefix there in the same pull request, because on w3id.org a sub-directory's own <code>.htaccess</code> takes precedence over this forwarding rule.</p>
 <pre class="code">{{ w3id_snip }}</pre>
 {% endif %}
 {% endblock %}

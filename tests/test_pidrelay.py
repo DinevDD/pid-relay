@@ -6,6 +6,7 @@ import textwrap
 import unittest
 from pathlib import Path
 
+from pidrelay import w3idcheck
 from pidrelay.check import check_ownership, validate
 from pidrelay.lint import lint_htaccess
 from pidrelay.runner import Httpd, probe_namespaces
@@ -70,6 +71,7 @@ class LintTests(unittest.TestCase):
 
     def test_sections_rejected(self):
         self.assertTrue(errors("<If \"true\">\n</If>"))
+        self.assertEqual(errors("<IfModule mod_rewrite.c>\nRewriteEngine on\n</IfModule>"), [])
 
 
 class TreeTests(unittest.TestCase):
@@ -122,6 +124,9 @@ class ApacheTests(unittest.TestCase):
             self.assertNotEqual(st, 200)            # no proxying possible
             st, loc, _ = h.request("/pid/x/rel/a")  # server-relative uses public URL
             self.assertEqual(loc, "https://relay.example/pid/x/good/z")
+            st, loc, hd = h.request("/pid/x/good")       # bare directory: like w3id.org
+            self.assertEqual((st, loc), (301, "https://relay.example/pid/x/good/"))
+            self.assertEqual(hd.get("Access-Control-Allow-Origin"), "*")
             st, _, _ = h.request("/pid/x/OWNERS.yaml")
             self.assertEqual(st, 403)
             st, _, _ = h.request("/etc/passwd")
@@ -185,6 +190,21 @@ class OwnershipTests(unittest.TestCase):
         self.assertTrue(check_ownership(self.d, head, head2, "relay-bot"))
         head3 = self.change("rules/course/g1/README.md")  # bot commit without trailer
         self.assertTrue(check_ownership(self.d, head2, head3, "relay-bot"))
+
+
+@unittest.skipUnless(w3idcheck.checker(), "w3id.org checker not configured (PIDRELAY_W3ID_CHECK)")
+class W3idCheckerTests(unittest.TestCase):
+    def test_findings_are_mapped_to_rules_tree(self):
+        d = make_repo({
+            "rules/x/OWNERS.yaml": "accounts: [a]\n",
+            "rules/x/g/.htaccess": "RewriteEngine on\nRewriteRule ^go/(.*)$ https://$1 [R=302,L]\n",
+            "rules/x/g/tests.yaml": "tests:\n  - path: go/e.org\n    status: 302\n",
+        })
+        rep = validate(d, run=False)
+        hits = [i for i in rep.errors if "no-open-redirect" in i.msg]
+        self.assertTrue(hits, rep.text())
+        self.assertEqual(hits[0].file, "rules/x/g/.htaccess")
+        shutil.rmtree(d)
 
 
 class ExampleTreeTests(unittest.TestCase):
