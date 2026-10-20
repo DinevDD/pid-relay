@@ -1,0 +1,7 @@
+RewriteEngine on
+
+RewriteRule ^ont$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/ontology/student_performance_ontology.ttl [R=303,L]
+
+RewriteRule ^data$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance_data.ttl [R=303,L]
+
+RewriteRule ^data-original$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance.csv [R=303,L]

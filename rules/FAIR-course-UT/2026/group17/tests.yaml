@@ -1,0 +1,12 @@
+tests:
+  - path: ont
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/ontology/student_performance_ontology.ttl
+
+  - path: data
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance_data.ttl
+
+  - path: data-original
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance.csv
