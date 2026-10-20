@@ -265,6 +265,12 @@ class ClaimTests(unittest.TestCase):
         self.assertTrue(check_ownership(self.d, recorded, later, "mallory"))
         self.assertEqual(check_ownership(self.d, recorded, later, "alice"), [])
 
+    def test_admin_and_ui_bot_never_claim(self):
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
+        head = self.commit("admin edits an unclaimed folder")
+        self.assertEqual(record_claims(self.d, self.base, head, "prof"), [])
+        self.assertEqual(record_claims(self.d, self.base, head, "relay-bot"), [])
+
     def test_only_one_claim_per_pull_request(self):
         self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
         self.write("rules/course/2026/group08/.htaccess", "RewriteEngine on\n")

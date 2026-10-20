@@ -282,6 +282,10 @@ def record_claims(root: Path, base: str, head: str, actor: str) -> list[str]:
 
     Used by automerge right after merging. Returns the files written.
     """
+    platform = load_platform(Path(root))
+    a = (actor or "").lower()
+    if a == platform["ui_bot"] or a in platform["admins"].github:
+        return []  # admins and the UI bot never claim
     found, _ = find_claims(root, base, head, actor)
     written = []
     for ns, logins in found.items():
