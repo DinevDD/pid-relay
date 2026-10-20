@@ -1,0 +1,23 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group09/data
+    note: FAIRified RDF dataset redirects to the Turtle file
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/data/fairified/football-players-final.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group09/data-original
+    note: Original dataset redirects to the ZIP archive
+    accept: application/zip
+    status: 303
+    location: https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/data/original/original_dataset.zip
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group09/ont
+    note: Ontology redirects to the Turtle file
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/ontology/football-players-ontology.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group09/
+    note: Group identifier redirects to the project landing page
+    status: 302
+    location: https://github.com/giorgosoratis/FAIR-project-group9

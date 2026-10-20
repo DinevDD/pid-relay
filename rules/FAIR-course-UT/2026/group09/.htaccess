@@ -1,0 +1,13 @@
+RewriteEngine on
+
+# FAIRified RDF dataset
+RewriteRule ^data/?$ https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/data/fairified/football-players-final.ttl [R=303,L]
+
+# Original dataset ZIP
+RewriteRule ^data-original/?$ https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/data/original/original_dataset.zip [R=303,L]
+
+# Ontology in Turtle format
+RewriteRule ^ont/?$ https://raw.githubusercontent.com/giorgosoratis/FAIR-project-group9/main/ontology/football-players-ontology.ttl [R=303,L]
+
+# Group landing page
+RewriteRule ^$ https://github.com/giorgosoratis/FAIR-project-group9 [R=302,L]
