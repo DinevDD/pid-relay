@@ -95,7 +95,7 @@ in `ui/app.py`, so OIDC (Keycloak, SURFconext, LS-AAI) can replace it later.
 
 ### 1. GitHub repository
 
-1. Push this repository to GitHub, e.g. `YOUR-ORG/pid-relay`.
+1. The repository is `luizbonino/pid-relay` (public).
 2. Edit `config/platform.yaml`. Put your GitHub login under `admins.github`
    and the login of a machine account under `ui_bot`. Also replace
    `CHANGE-ME-your-github-login` in `rules/*/OWNERS.yaml`.
@@ -117,7 +117,7 @@ Students without GitHub accounts can do everything through the UI.
 On `fair-testbed.eemcs.utwente.nl` (needs Docker with the compose plugin):
 
 ```sh
-git clone https://github.com/YOUR-ORG/pid-relay.git /opt/pid-relay
+git clone https://github.com/luizbonino/pid-relay.git /opt/pid-relay
 cd /opt/pid-relay/deploy
 cp .env.example .env      # fill in host, e-mail, repository and token
 docker compose up -d --build
