@@ -1,0 +1,15 @@
+tests:
+  - path: ont
+    note: The vocabulary/ontology resolves to the TTL file
+    status: 303
+    location: https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/ontologie.ttl
+
+  - path: data
+    note: The triplified dataset resolves to the RDF file
+    status: 303
+    location: https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/global_air_quality_triplified.rdf
+
+  - path: shape
+    note: The SHACL shapes and metadata resolve to the TTL file
+    status: 303
+    location: https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/metadata.ttl

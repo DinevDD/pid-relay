@@ -1,0 +1,10 @@
+RewriteEngine on
+
+# Redireccion de la Ontologia
+RewriteRule ^ont$ https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/ontologie.ttl [R=303,L]
+
+# Redireccion de los Datos
+RewriteRule ^data$ https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/global_air_quality_triplified.rdf [R=303,L]
+
+# Redireccion de los Metadatos y SHACL
+RewriteRule ^shape$ https://raw.githubusercontent.com/pabloll22/FAIR-Data-Engineering/refs/heads/main/metadata.ttl [R=303,L]
