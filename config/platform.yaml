@@ -12,4 +12,4 @@ admins:
 # GitHub login of the machine account whose token the management UI uses to
 # open pull requests. PRs by this account are attributed via the
 # "Pid-Relay-Account:" commit trailer that the UI writes.
-ui_bot: CHANGE-ME-ui-bot-login
+ui_bot: fair-pid-relay-bot
