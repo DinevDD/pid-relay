@@ -114,7 +114,8 @@ Students without GitHub accounts can do everything through the UI.
 
 ### 2. Server
 
-On `fair-testbed.eemcs.utwente.nl` (needs Docker with the compose plugin):
+On `fair-testbed.eemcs.utwente.nl` the service runs from **`/opt/pid-relay`**
+(owned by root, Docker needs `sudo`). Setting it up from scratch:
 
 ```sh
 git clone https://github.com/luizbonino/pid-relay.git /opt/pid-relay
@@ -127,6 +128,12 @@ docker compose logs ui | grep "initial account"   # if no ADMIN_PASSWORD was set
 **Firewall**: inbound TCP **80** and **443** must be reachable from the
 internet. Let's Encrypt validates on port 80, and w3id.org users are
 redirected to port 443. Outbound HTTPS to GitHub is needed for syncing.
+
+Updating the code later:
+
+```sh
+cd /opt/pid-relay && sudo git pull && cd deploy && sudo docker compose up -d --build
+```
 
 The rules are pulled from GitHub at run time. The server's own checkout of this
 repository is only used to build the images, so update it (`git pull &&
