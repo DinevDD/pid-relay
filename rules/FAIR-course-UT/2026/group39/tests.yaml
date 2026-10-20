@@ -1,0 +1,76 @@
+# One request per identifier, plus content negotiation for the documents that
+# have both a machine and a human representation.
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group39/
+    note: namespace root is the project landing page
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39
+
+  # Ontology: RDF for machines, GitLab preview for people.
+  - path: ont
+    accept: text/turtle
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/ontology/penguin-observations-ontology.ttl
+
+  - path: ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/blob/master/ontology/penguin-observations-ontology.ttl
+
+  # Version IRI declared by the ontology.
+  - path: ont/0.1.0
+    accept: text/turtle
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/ontology/penguin-observations-ontology.ttl
+
+  # Hash namespace of the observations.
+  - path: data
+    accept: text/turtle
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations.ttl
+
+  - path: data
+    accept: text/html
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/blob/master/data/fair/penguin_observations.ttl
+
+  # The dataset as one thing.
+  - path: dataset
+    accept: text/turtle
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations_merged.ttl
+
+  - path: dataset
+    accept: text/html
+    status: 303
+    location: https://gitlab.utwente.nl/s3820653/fair-group39
+
+  # Distributions.
+  - path: data/original/penguins.csv
+    status: 302
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/original/penguins.csv
+
+  - path: data/original/penguins_raw.csv
+    status: 302
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/original/penguins_raw.csv
+
+  - path: data/fair/penguin_observations.ttl
+    status: 302
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations.ttl
+
+  - path: data/fair/penguin_observations_merged.ttl
+    status: 302
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations_merged.ttl
+
+  - path: openrefine/penguins_clean.csv
+    status: 302
+    location: https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/openrefine/penguins_clean.csv
+
+  # Identifiers outside the published set are not redirected.
+  - path: dataset/Not_Valid
+    note: identifiers are lower case, no free text under the namespace
+    status: 404
+
+  - path: ont/latest
+    note: version segments are numeric, latest is not an identifier
+    status: 404
