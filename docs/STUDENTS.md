@@ -11,30 +11,46 @@ Everything after that base is yours to design (`dataset/rivers`,
 whether the target depends on what the client asks for (HTML for people, RDF
 for machines).
 
-You write the rules in exactly the syntax w3id.org uses (Apache `.htaccess`).
-They are not sent to w3id.org. They run on the course's own redirect service,
-which w3id.org forwards your namespace to. Your rules are tested automatically
-before they go live, so a mistake cannot break anybody else's identifiers.
+You write the rules in exactly the syntax w3id.org uses (Apache `.htaccess`),
+and you submit them the way you would to w3id.org, as a pull request on GitHub.
+The difference is where they go. Instead of
+[perma-id/w3id.org](https://github.com/perma-id/w3id.org), your pull request
+goes to the course repository
+[luizbonino/pid-relay](https://github.com/luizbonino/pid-relay). w3id.org
+forwards the whole `FAIR-course-UT` namespace there. Your rules are checked
+automatically, including with w3id.org's own checker, and go live as soon as
+they pass. Nobody has to review them by hand, and a mistake cannot break
+anybody else's identifiers.
 
-## 1. Log in
+Your folder is `rules/FAIR-course-UT/2026/groupNN/`, where `NN` is your Canvas
+group number with two digits. Canvas "Group 7" is `group07`.
 
-`https://fair-testbed.eemcs.utwente.nl/pid-manager/`
+## 1. Claim your folder with your first pull request
 
-Use the account and initial password you received. You are asked to choose
-a new password first. Under *Namespaces*, open your group's namespace and choose
-**Edit rules**.
+1. Fork [luizbonino/pid-relay](https://github.com/luizbonino/pid-relay) on
+   GitHub, and clone your fork.
+2. In `rules/FAIR-course-UT/2026/groupNN/`, add a `.htaccess` with your rules
+   and a `tests.yaml` with the redirects you expect (sections 2 and 3).
+3. **If you work in a pair**, also edit `OWNERS.yaml` in that folder and put
+   both GitHub logins in the list, e.g. `github: [your-login, partner-login]`.
+   Working alone, leave `OWNERS.yaml` as it is.
+4. Commit, push to your fork, and open a pull request to `luizbonino/pid-relay`.
+
+The first pull request into an unclaimed group folder **claims** it, just like
+claiming a namespace on w3id.org. When it is merged, your GitHub login (and your
+partner's, if you listed it) is recorded in the folder's `OWNERS.yaml`. From
+then on, only you can change that folder. Claim your own group number only,
+one folder per person.
 
 ## 2. Write rules
 
-You edit two files.
+Your folder needs two files.
 
 * **`.htaccess`**: the redirect rules.
 * **`tests.yaml`**: the redirects you expect. Required. Every rule should
   have at least one test.
 
-The **rule helper** at the top of the edit page writes both for you. Describe
-the identifier path, an optional content type, the target, and the status
-code. Then press *Add rule and test*.
+A complete worked example is in `rules/FAIR-course-UT/2026/group00/`.
 
 ### How rules match
 
@@ -89,9 +105,9 @@ To keep the service safe, only redirect-related directives are accepted:
 lines. They are accepted, but they do nothing for redirects.
 
 Your files are also checked with [w3id.org's own
-checker](https://w3id.org/docs/rules/). Its findings appear in the report
-marked `[w3id.org …]`, each with a link explaining the rule. Errors block
-publishing, and warnings are worth fixing too. The most common ones are
+checker](https://w3id.org/docs/rules/). Its findings appear in the check's
+output marked `[w3id.org …]`, each with a link explaining the rule. Errors make
+the check fail, and warnings are worth fixing too. The most common ones are
 comments at the end of a rule line (Apache has no inline comments), `http://`
 targets, and `^(.+)/?$` patterns that swallow the slash.
 
@@ -122,34 +138,47 @@ Each test is one request. Use either `pid` (the full identifier) or
 `path` (relative to your namespace), optionally `accept`. Give the expected
 `status` and/or `location` (exact) or `location_regex`.
 
-## 4. Validate and publish
+## 4. Follow your pull request
 
-* **Validate** runs everything on a real Apache server with your files and
-  shows each problem with its line number, plus the result of every test.
-* **Validate and open pull request** (or *publish*) only works when everything
-  passes. Your change is then merged and goes live within a few minutes. Follow
-  it under *Submissions*.
+The pull request runs a check called **validate**. It lints your `.htaccess`,
+runs w3id.org's checker on it, starts a real Apache server with your rules,
+runs every test in your `tests.yaml`, and checks that you own the folder.
+
+* **Green:** the pull request is merged automatically within a minute or two,
+  and your identifiers work a minute after that.
+* **Red:** open *Details* next to the failed check, then the step **Lint and
+  test all rules on Apache httpd**. Each problem is listed with its file and
+  line number, and failing tests show what they expected and what they got. Fix
+  the files on the same branch and push again. The pull request is checked
+  again on its own.
+
+The first time you open a pull request to this repository, GitHub may hold the
+check until the course team approves it. That only happens once.
+
+For your next change, first bring your fork up to date (*Sync fork* on your
+fork's GitHub page, then `git pull`), so you start from what is live. Then open
+a new pull request the same way.
 
 ## 5. Check the result
 
-Use **Resolve** with your identifier and an `Accept` header. It shows every
-hop: w3id.org, then this service, then your target. From a terminal:
+The relay's **Resolve** page follows an identifier hop by hop, with any
+`Accept` header. It shows w3id.org, then the course service, then your target:
+`https://fair-testbed.eemcs.utwente.nl/pid-manager/resolve`
+
+From a terminal:
 
 ```sh
 curl -sI -H "Accept: text/turtle" https://w3id.org/FAIR-course-UT/2026/group07/dataset/rivers
 curl -sIL -H "Accept: text/turtle" https://w3id.org/FAIR-course-UT/2026/group07/dataset/rivers   # follow all hops
 ```
 
-## Using GitHub instead of the UI
+## Trying your rules locally (optional)
 
-The rules live in a GitHub repository. If your GitHub login is listed in your
-group's `OWNERS.yaml`, you can fork it, edit
-`rules/FAIR-course-UT/<year>/<group>/`, and open a pull request. The same
-checks run there. Pull requests that only touch namespaces you own are merged
-automatically when the checks pass. To try your rules locally:
+If you have Apache httpd and Python with PyYAML installed:
 
 ```sh
 python3 -m pidrelay test --only FAIR-course-UT/2026/group07
 ```
 
-This needs Apache httpd and PyYAML installed.
+This runs the same checks as the pull request, except w3id.org's checker,
+which needs extra setup (see the README).

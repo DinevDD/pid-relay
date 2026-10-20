@@ -9,7 +9,8 @@ from pathlib import Path
 from . import w3idcheck
 from .lint import Issue, lint_tree
 from .runner import Httpd, TestResult, probe_namespaces, run_tests
-from .tree import FileSource, effective_owners, governing_ns, load_platform
+from .tree import (FileSource, Owners, ancestors, effective_owners, governing_ns,
+                   load_platform, parent)
 
 TRAILER = "Pid-Relay-Account"
 
@@ -118,7 +119,8 @@ def ui_accounts(root: Path, base: str, head: str) -> set[str]:
     return accts
 
 
-def check_ownership(root: Path, base: str, head: str, actor: str) -> list[str]:
+def check_ownership(root: Path, base: str, head: str, actor: str,
+                    notes: list[str] | None = None) -> list[str]:
     """Return a list of permission problems for a change base..head by actor.
 
     Ownership is always read from the BASE revision, so a change cannot grant
@@ -148,7 +150,20 @@ def check_ownership(root: Path, base: str, head: str, actor: str) -> list[str]:
         return (account in admin_acc) if via_ui else (actor in admin_gh)
 
     problems = []
-    for f in changed_files(root, base, head):
+    changed = changed_files(root, base, head)
+
+    claimed: list[str] = []
+    if not via_ui and not is_admin():
+        found, cproblems = find_claims(root, base, head, actor, changed)
+        problems += cproblems
+        claimed = list(found)
+        if notes is not None:
+            for ns, logins in found.items():
+                notes.append(f"rules/{ns} claimed by {', '.join(sorted(logins))}")
+
+    for f in changed:
+        if any(f.startswith(f"rules/{ns}/") for ns in claimed):
+            continue
         if not f.startswith("rules/"):
             if not is_admin():
                 problems.append(f"{f}: only platform admins may change files outside rules/")
@@ -163,3 +178,122 @@ def check_ownership(root: Path, base: str, head: str, actor: str) -> list[str]:
             where = f"rules/{ns}" if ns else "the top of rules/ (new W3ID prefixes are admin-only)"
             problems.append(f"{f}: {who} is not an owner of {where}")
     return problems
+
+
+# ------------------------------------------------------------------ claims
+
+def _claimable_folder(src: FileSource, ns: str) -> tuple[str, Owners] | None:
+    """The unclaimed, claimable folder that contains namespace ns, if any.
+
+    A folder is claimable when it already exists with an OWNERS.yaml that
+    lists nobody, and its parent's OWNERS.yaml says `claimable: true`.
+    """
+    for cand in reversed(ancestors(ns)):
+        if not cand or "/" not in cand:
+            continue
+        text = src.read(f"rules/{cand}/OWNERS.yaml")
+        if text is None:
+            continue
+        try:
+            own = Owners.from_yaml(text)
+            par = Owners.from_yaml(src.read(f"rules/{parent(cand)}/OWNERS.yaml"))
+        except ValueError:
+            return None
+        if own.unclaimed and par.claimable:
+            return cand, par
+        return None  # nearest OWNERS decides; a claimed or plain folder is not claimable
+    return None
+
+
+def find_claims(root: Path, base: str, head: str, actor: str,
+                changed: list[str] | None = None) -> tuple[dict[str, set[str]], list[str]]:
+    """Folders this change claims, as {namespace: logins to record}, plus problems.
+
+    Like claiming a namespace on w3id.org: the first pull request into an
+    unclaimed group folder makes its author the owner. The author may list a
+    partner by editing the folder's OWNERS.yaml in that same pull request.
+    """
+    actor = (actor or "").lower()
+    src, head_src = FileSource(root, base), FileSource(root, head)
+    changed = changed if changed is not None else changed_files(root, base, head)
+    claims: dict[str, tuple[set[str], Owners]] = {}
+    problems: list[str] = []
+    for f in changed:
+        if not f.startswith("rules/"):
+            continue
+        inner = f[len("rules/"):]
+        d = inner.rsplit("/", 1)[0] if "/" in inner else ""
+        hit = _claimable_folder(src, d)
+        if not hit:
+            continue
+        ns, par = hit
+        if ns in claims:
+            continue
+        logins = {actor}
+        if f"rules/{ns}/OWNERS.yaml" in changed:
+            try:
+                after = Owners.from_yaml(head_src.read(f"rules/{ns}/OWNERS.yaml"))
+            except ValueError:
+                continue  # the linter reports the broken file
+            if after.accounts:
+                problems.append(f"rules/{ns}/OWNERS.yaml: a claim may only list GitHub logins; "
+                                f"leave accounts: empty")
+                continue
+            logins |= after.github
+            if after.github and actor not in after.github:
+                problems.append(f"rules/{ns}/OWNERS.yaml: to claim rules/{ns}, your own GitHub "
+                                f"login ('{actor}') must be in its github: list")
+                continue
+        if len(logins) > par.claim_max:
+            problems.append(f"rules/{ns}: at most {par.claim_max} GitHub logins may claim one folder")
+            continue
+        claims[ns] = (logins, par)
+
+    if len(claims) > 1:
+        problems.append("a pull request may claim only one folder, but this one would claim "
+                        + ", ".join(f"rules/{n}" for n in sorted(claims)))
+        return {}, problems
+
+    for ns in list(claims):
+        # one folder per person within the same claimable parent
+        par_dir = parent(ns)
+        for sib in _siblings(root, base, par_dir):
+            if sib == ns:
+                continue
+            try:
+                o = Owners.from_yaml(src.read(f"rules/{sib}/OWNERS.yaml"))
+            except ValueError:
+                continue
+            if actor in o.github:
+                problems.append(f"rules/{ns}: you ('{actor}') already own rules/{sib}; "
+                                f"one folder per person")
+                claims.pop(ns)
+                break
+    return {ns: v[0] for ns, v in claims.items()}, problems
+
+
+def _siblings(root: Path, rev: str, par_dir: str) -> list[str]:
+    out = _git(root, "ls-tree", "-d", "--name-only", rev, f"rules/{par_dir}/")
+    return [l[len("rules/"):] for l in out.splitlines() if l.strip()]
+
+
+def record_claims(root: Path, base: str, head: str, actor: str) -> list[str]:
+    """Write the logins of claims made in base..head into the working tree.
+
+    Used by automerge right after merging. Returns the files written.
+    """
+    found, _ = find_claims(root, base, head, actor)
+    written = []
+    for ns, logins in found.items():
+        p = Path(root) / "rules" / ns / "OWNERS.yaml"
+        try:
+            current = Owners.from_yaml(p.read_text()) if p.exists() else Owners()
+        except ValueError:
+            current = Owners()
+        logins = logins | current.github
+        p.write_text("# Claimed by the first pull request into this folder.\n"
+                     "# Only these GitHub users may change it from now on.\n"
+                     f"github: [{', '.join(sorted(logins))}]\n"
+                     "accounts: []\n")
+        written.append(str(p.relative_to(root)))
+    return written

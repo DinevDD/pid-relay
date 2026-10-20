@@ -70,9 +70,17 @@ def parent(ns: str) -> str:
 class Owners:
     github: set[str] = field(default_factory=set)
     accounts: set[str] = field(default_factory=set)
+    # Set on a parent namespace: its unclaimed sub-folders may be claimed by
+    # the first pull request into them (see check.check_ownership).
+    claimable: bool = False
+    claim_max: int = 4
 
     def merge(self, other: "Owners") -> "Owners":
         return Owners(self.github | other.github, self.accounts | other.accounts)
+
+    @property
+    def unclaimed(self) -> bool:
+        return not self.github and not self.accounts
 
     @classmethod
     def from_yaml(cls, text: str | None) -> "Owners":
@@ -90,7 +98,13 @@ class Owners:
                 raise ValueError(f"OWNERS.yaml: '{key}' must be a list of strings")
             return {x.strip().lower() for x in v if x.strip()}
 
-        return cls(_set("github"), _set("accounts"))
+        claimable = data.get("claimable", False)
+        if not isinstance(claimable, bool):
+            raise ValueError("OWNERS.yaml: 'claimable' must be true or false")
+        claim_max = data.get("claim_max", 4)
+        if not isinstance(claim_max, int) or claim_max < 1:
+            raise ValueError("OWNERS.yaml: 'claim_max' must be a positive number")
+        return cls(_set("github"), _set("accounts"), claimable, claim_max)
 
 
 def load_platform(root: Path) -> dict:

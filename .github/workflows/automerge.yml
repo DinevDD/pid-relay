@@ -1,9 +1,13 @@
 name: automerge
 
 # Merges a pull request once "validate" passed, if it changes nothing outside
-# rules/. This runs with the workflow definition of the base branch, so a
-# pull request cannot alter it. Changes outside rules/ (code, CI, config)
-# are never merged automatically and wait for an admin.
+# rules/. Runs with the base branch's own workflow and code, so a pull request
+# cannot alter it. Changes outside rules/ (code, CI, config) wait for an admin.
+#
+# Before merging, ownership is checked again against the CURRENT main, so two
+# pull requests racing to claim the same folder cannot both get in. After
+# merging, a claim (first pull request into an unclaimed group folder) is
+# recorded by writing the author's GitHub login into that folder's OWNERS.yaml.
 
 on:
   workflow_run:
@@ -14,18 +18,31 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: automerge
+  cancel-in-progress: false
+
 jobs:
   merge:
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      SHA: ${{ github.event.workflow_run.head_sha }}
     steps:
-      - name: Merge if the change only touches rules/
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Tools
+        run: python3 -c "import yaml" 2>/dev/null || pip install --quiet pyyaml
+
+      - name: Find the pull request
+        id: pr
         run: |
           set -euo pipefail
           pr=$(gh pr list -R "$REPO" --state open --base main --limit 200 \
@@ -35,5 +52,38 @@ jobs:
           if [ -n "$outside" ]; then
             echo "PR #$pr touches files outside rules/, leaving it for an admin:"; echo "$outside"; exit 0
           fi
-          gh pr merge -R "$REPO" "$pr" --squash --match-head-commit "$SHA" --delete-branch \
-            || gh pr merge -R "$REPO" "$pr" --squash --match-head-commit "$SHA"
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+          echo "author=$(gh pr view -R "$REPO" "$pr" --json author --jq .author.login)" >> "$GITHUB_OUTPUT"
+
+      - name: Re-check ownership against the current main
+        if: steps.pr.outputs.number
+        run: |
+          set -euo pipefail
+          git fetch --quiet origin "pull/${{ steps.pr.outputs.number }}/head:pr-head"
+          test "$(git rev-parse pr-head)" = "$SHA"
+          python3 -m pidrelay check-owners --base origin/main --head pr-head \
+            --actor "${{ steps.pr.outputs.author }}"
+
+      - name: Merge
+        if: steps.pr.outputs.number
+        run: |
+          gh pr merge -R "$REPO" "${{ steps.pr.outputs.number }}" --squash --match-head-commit "$SHA" --delete-branch \
+            || gh pr merge -R "$REPO" "${{ steps.pr.outputs.number }}" --squash --match-head-commit "$SHA"
+
+      - name: Record a claim
+        if: steps.pr.outputs.number
+        run: |
+          set -euo pipefail
+          before=$(git rev-parse origin/main)
+          git fetch --quiet origin main
+          git checkout --quiet -B main origin/main
+          merged=$(git rev-parse HEAD)
+          python3 -m pidrelay record-claims --base "$before" --head "$merged" \
+            --actor "${{ steps.pr.outputs.author }}"
+          if [ -n "$(git status --porcelain rules)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add rules
+            git commit --quiet -m "Record owner of folder claimed in #${{ steps.pr.outputs.number }}"
+            git push --quiet origin main
+          fi

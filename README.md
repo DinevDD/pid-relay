@@ -70,6 +70,16 @@ can add themselves. New top-level prefixes and anything outside `rules/` are
 admin-only. Ownership is always read from the base branch, never from the
 change itself.
 
+**Claiming.** A parent whose `OWNERS.yaml` says `claimable: true` (for example
+`rules/FAIR-course-UT/2026/`) lets its unclaimed sub-folders be claimed, as on
+w3id.org. The first pull request into such a folder is accepted from anyone,
+and after merging, `automerge` writes the author's GitHub login (plus a partner
+listed in that pull request) into the folder's `OWNERS.yaml`. Only existing
+folders can be claimed, only one per pull request and one per person, at most
+`claim_max` logins each. Claims are re-checked against the current `main` just
+before merging, so two pull requests cannot claim the same folder. To correct a
+claim, an owner of the parent edits the folder's `OWNERS.yaml`.
+
 ## Management UI
 
 `https://fair-testbed.eemcs.utwente.nl/pid-manager/`

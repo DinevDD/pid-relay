@@ -20,6 +20,10 @@ def main(argv=None) -> int:
     o.add_argument("--base", required=True)
     o.add_argument("--head", required=True)
     o.add_argument("--actor", required=True, help="GitHub login of the pull request author")
+    rc = sub.add_parser("record-claims", help="after a merge: write claimed folders' owners")
+    rc.add_argument("--base", required=True)
+    rc.add_argument("--head", required=True)
+    rc.add_argument("--actor", required=True)
     s = sub.add_parser("w3id-snippet", help="print the .htaccess to submit to w3id.org for a prefix")
     s.add_argument("prefix")
     a = ap.parse_args(argv)
@@ -33,11 +37,21 @@ def main(argv=None) -> int:
         return 0 if rep.ok else 1
 
     if a.cmd == "check-owners":
-        problems = check_ownership(root, a.base, a.head, a.actor)
+        notes: list[str] = []
+        problems = check_ownership(root, a.base, a.head, a.actor, notes)
+        for n in notes:
+            print(f"CLAIM   {n}")
         for p in problems:
             print(f"DENIED  {p}")
         print("RESULT: " + ("OK" if not problems else "FAILED"))
         return 0 if not problems else 1
+
+    if a.cmd == "record-claims":
+        from .check import record_claims
+
+        for f in record_claims(root, a.base, a.head, a.actor):
+            print(f"RECORDED {f}")
+        return 0
 
     if a.cmd == "w3id-snippet":
         from .w3id import snippet

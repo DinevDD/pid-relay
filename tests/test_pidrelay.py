@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 from pidrelay import w3idcheck
-from pidrelay.check import check_ownership, validate
+from pidrelay.check import check_ownership, record_claims, validate
 from pidrelay.lint import lint_htaccess
 from pidrelay.runner import Httpd, probe_namespaces
 
@@ -190,6 +190,101 @@ class OwnershipTests(unittest.TestCase):
         self.assertTrue(check_ownership(self.d, head, head2, "relay-bot"))
         head3 = self.change("rules/course/g1/README.md")  # bot commit without trailer
         self.assertTrue(check_ownership(self.d, head2, head3, "relay-bot"))
+
+
+class ClaimTests(unittest.TestCase):
+    """First pull request into an unclaimed folder of a claimable parent."""
+
+    def setUp(self):
+        self.d = make_repo({
+            "rules/course/OWNERS.yaml": "github: [prof2]\n",
+            "rules/course/2026/OWNERS.yaml": "github: []\naccounts: []\nclaimable: true\nclaim_max: 2\n",
+            "rules/course/2026/group07/OWNERS.yaml": "github: []\naccounts: []\n",
+            "rules/course/2026/group08/OWNERS.yaml": "github: []\naccounts: []\n",
+            "rules/course/other/OWNERS.yaml": "github: []\naccounts: []\n",
+        })
+        git(self.d, "init", "-q", "-b", "main")
+        self.commit("base")
+        self.base = git(self.d, "rev-parse", "HEAD")
+
+    def tearDown(self):
+        shutil.rmtree(self.d)
+
+    def commit(self, msg):
+        git(self.d, "-c", "user.name=t", "-c", "user.email=t@t", "add", "-A")
+        git(self.d, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", msg)
+        return git(self.d, "rev-parse", "HEAD")
+
+    def write(self, rel, content):
+        p = self.d / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+
+    def test_claim_with_rules_is_accepted(self):
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [alice, bob]\naccounts: []\n")
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
+        head = self.commit("claim")
+        notes = []
+        self.assertEqual(check_ownership(self.d, self.base, head, "alice", notes), [])
+        self.assertEqual(notes, ["rules/course/2026/group07 claimed by alice, bob"])
+
+    def test_claim_must_list_author(self):
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [bob]\n")
+        head = self.commit("claim for someone else")
+        self.assertTrue(check_ownership(self.d, self.base, head, "mallory"))
+
+    def test_claim_limit(self):
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [a, b, c]\n")
+        head = self.commit("too many")
+        self.assertTrue(check_ownership(self.d, self.base, head, "a"))
+
+    def test_claimed_folder_cannot_be_reclaimed(self):
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [alice]\n")
+        claimed = self.commit("claim")
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [mallory]\n")
+        head = self.commit("hijack")
+        self.assertTrue(check_ownership(self.d, claimed, head, "mallory"))
+        git(self.d, "reset", "-q", "--hard", claimed)
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
+        head2 = self.commit("edit by owner")
+        self.assertEqual(check_ownership(self.d, claimed, head2, "alice"), [])
+
+    def test_claim_by_author_without_editing_owners(self):
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
+        head = self.commit("rules only")
+        notes = []
+        self.assertEqual(check_ownership(self.d, self.base, head, "Alice", notes), [])
+        self.assertEqual(notes, ["rules/course/2026/group07 claimed by alice"])
+        # after the merge, automerge records the author
+        written = record_claims(self.d, self.base, head, "Alice")
+        self.assertEqual(written, ["rules/course/2026/group07/OWNERS.yaml"])
+        self.assertIn("github: [alice]", (self.d / written[0]).read_text())
+        recorded = self.commit("record")
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n# x\n")
+        later = self.commit("someone else")
+        self.assertTrue(check_ownership(self.d, recorded, later, "mallory"))
+        self.assertEqual(check_ownership(self.d, recorded, later, "alice"), [])
+
+    def test_only_one_claim_per_pull_request(self):
+        self.write("rules/course/2026/group07/.htaccess", "RewriteEngine on\n")
+        self.write("rules/course/2026/group08/.htaccess", "RewriteEngine on\n")
+        head = self.commit("two folders")
+        problems = check_ownership(self.d, self.base, head, "alice")
+        self.assertTrue(any("only one folder" in p for p in problems), problems)
+
+    def test_one_folder_per_person(self):
+        self.write("rules/course/2026/group07/OWNERS.yaml", "github: [alice]\n")
+        owned = self.commit("alice owns 07")
+        self.write("rules/course/2026/group08/.htaccess", "RewriteEngine on\n")
+        head = self.commit("alice tries 08")
+        problems = check_ownership(self.d, owned, head, "alice")
+        self.assertTrue(any("one folder per person" in p for p in problems), problems)
+
+    def test_new_folder_or_non_claimable_parent_cannot_be_claimed(self):
+        self.write("rules/course/2026/group99/OWNERS.yaml", "github: [alice]\n")
+        self.write("rules/course/other/OWNERS.yaml", "github: [alice]\n")
+        head = self.commit("claims outside the rules")
+        self.assertEqual(len(check_ownership(self.d, self.base, head, "alice")), 2)
 
 
 @unittest.skipUnless(w3idcheck.checker(), "w3id.org checker not configured (PIDRELAY_W3ID_CHECK)")
