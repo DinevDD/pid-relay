@@ -1,0 +1,9 @@
+# FAIR Data Engineering 2026-1A (Canvas course 19149).
+# Each group folder below is claimed by the first pull request into it: the
+# author's GitHub login is recorded in that folder's OWNERS.yaml, and from
+# then on only the recorded logins may change it. Owners of FAIR-course-UT
+# can correct a claim by editing that file.
+github: []
+accounts: []
+claimable: true
+claim_max: 2
