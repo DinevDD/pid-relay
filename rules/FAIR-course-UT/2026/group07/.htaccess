@@ -1,0 +1,51 @@
+RewriteEngine On
+
+#Dataset PID
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^dataset/rivers$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-SCHACL-schema.ttl [R=303,L]
+RewriteRule ^dataset/rivers$ https://github.com/DinevDD/global-rivers-fairification [R=303,L]
+
+#Distribution PID
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^distribution/rivers-ttl$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+RewriteRule ^distribution/rivers-ttl$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+
+#Dataset metadata
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^metadata/rivers$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-SCHACL-schema.ttl [R=303,L]
+RewriteRule ^metadata/rivers$ https://github.com/DinevDD/global-rivers-fairification/blob/main/metadata/global-rivers-dataset-SCHACL-schema.ttl [R=303,L]
+
+#Individual river, length and external links
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^(river|length|link)/river-[0-9a-f]{16}$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+RewriteRule ^(river|length|link)/river-[0-9a-f]{16}$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+
+#River source and mouth coordinates
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^position/(source|mouth)/river-[0-9a-f]{16}$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+RewriteRule ^position/(source|mouth)/river-[0-9a-f]{16}$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+
+#Controlled river length categories
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^length-category/(short|medium|long)$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+RewriteRule ^length-category/(short|medium|long)$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
+
+#Data SHACL document
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^shapes/river-shapes$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/schema-data.ttl [R=303,L]
+RewriteRule ^shapes/river-shapes$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/schema-data.ttl [R=303,L]
+
+#Individual data SHACL shapes
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^shapes/(RiverShape|CoordinatesShape|LengthShape|LengthCategoryShape|ExternalIdentityLinkShape|GeneralGroup)$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/schema-data.ttl [R=303,L]
+RewriteRule ^shapes/(RiverShape|CoordinatesShape|LengthShape|LengthCategoryShape|ExternalIdentityLinkShape|GeneralGroup)$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/schema-data.ttl [R=303,L]
+
+#Metadata SHACL document
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^shapes/metadata-shapes$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
+RewriteRule ^shapes/metadata-shapes$ https://github.com/DinevDD/global-rivers-fairification/blob/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
+
+#Metadata shapes and property groups
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGroup|ContactGroup|SemanticDocumentationGroup|DataQualityGroup|DatasetShape|DistributionShape|ContactShape|ClassPartitionShape|QualityMeasurementShape)$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
+RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGroup|ContactGroup|SemanticDocumentationGroup|DataQualityGroup|DatasetShape|DistributionShape|ContactShape|ClassPartitionShape|QualityMeasurementShape)$ https://github.com/DinevDD/global-rivers-fairification/blob/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
