@@ -1,0 +1,30 @@
+# Each test is one request to the identifier and the redirect we expect
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group24/data
+    accept: text/turtle
+    status: 303
+    location: https://gitlab.utwente.nl/s2938804/fair-g24/-/raw/main/data/data.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group24/data
+    accept: text/html
+    note: browsers get the GitLab page of the data file
+    status: 303
+    location: https://gitlab.utwente.nl/s2938804/fair-g24/-/blob/main/data/data.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group24/data
+    note: clients that do not ask for a format get the raw Turtle file
+    status: 303
+    location: https://gitlab.utwente.nl/s2938804/fair-g24/-/raw/main/data/data.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group24/original
+    status: 302
+    location: https://gitlab.utwente.nl/s2938804/fair-g24/-/raw/main/data/original.csv
+
+  - path: ""
+    note: the namespace leads to the project repository
+    status: 302
+    location: https://gitlab.utwente.nl/s2938804/fair-g24
+
+  - path: data/unknown
+    note: identifiers we did not define are not redirected
+    status: 404
