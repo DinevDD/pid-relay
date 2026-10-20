@@ -1,0 +1,36 @@
+# Birdsoftheworld-fairified dataset, Canvas Group 11.
+RewriteEngine on
+
+Header always merge Vary Accept
+
+# One dataset description links the observation and trait distributions.
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^dataset/bird-observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/metadata.ttl [R=303,L]
+
+# Browsers and clients requesting other formats get the dataset landing page.
+RewriteRule ^dataset/bird-observations$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification [R=303,L]
+
+# Format-independent identifiers for the observations and traits.
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^dataset/bird-observations/observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/csv [NC]
+RewriteRule ^dataset/bird-observations/observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.csv [R=303,L]
+
+RewriteRule ^dataset/bird-observations/observations$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-observations.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+RewriteRule ^dataset/bird-observations/traits$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/csv [NC]
+RewriteRule ^dataset/bird-observations/traits$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.csv [R=303,L]
+
+RewriteRule ^dataset/bird-observations/traits$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-trait-observations.ttl [R=303,L]
+
+# Explicit download identifiers select the data part and format, independent of Accept.
+RewriteRule ^dataset/bird-observations/observations\.(ttl|csv)$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.$1 [R=303,L]
+
+RewriteRule ^dataset/bird-observations/traits\.(ttl|csv)$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.$1 [R=303,L]
+
+# The namespace root points to the project.
+RewriteRule ^$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification [R=302,L]
