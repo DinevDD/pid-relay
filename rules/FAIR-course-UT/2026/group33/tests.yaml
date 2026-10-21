@@ -1,0 +1,78 @@
+# Expected redirects for https://w3id.org/FAIR-course-UT/2026/group33/
+tests:
+  # Ontology
+  - path: ont
+    accept: text/turtle
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/ont/ont.ttl
+  - path: ont
+    accept: application/rdf+xml
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/ont/ont.owl
+  - path: ont
+    accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    note: a browser gets the HTML documentation
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/ont/
+  - path: ont
+    accept: "*/*"
+    note: clients that do not ask for a format get Turtle
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/ont/ont.ttl
+
+  # FAIRified data
+  - pid: https://w3id.org/FAIR-course-UT/2026/group33/data
+    accept: text/turtle
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/dist/fairified.ttl
+  - path: data
+    accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/
+  - path: data
+    accept: "*/*"
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/dist/fairified.ttl
+
+  # Distribution files and source snapshot
+  - path: dist/municipal_web.csv
+    status: 302
+    location: https://imsounic.github.io/fair-ut-group33/dist/municipal_web.csv
+  - path: source/20260611-1b-bijlage-meting-informatieveiligheidstandaarden-begin-2026-OBDO.html
+    status: 302
+    location: https://imsounic.github.io/fair-ut-group33/source/20260611-1b-bijlage-meting-informatieveiligheidstandaarden-begin-2026-OBDO.html
+  - path: dist/../ont/ont.ttl
+    note: path traversal is not an identifier
+    status: 404
+
+  # FAIR Data Point records
+  - path: fdp
+    accept: text/turtle
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/fdp/index.ttl
+  - path: fdp
+    accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/metadata.html
+  - path: fdp/dataset/7f60eea4-1d2b-4c3a-9e8f-0123456789ab
+    accept: text/turtle
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/fdp/dataset/7f60eea4-1d2b-4c3a-9e8f-0123456789ab.ttl
+  - path: fdp/catalog/7f60eea4-1d2b-4c3a-9e8f-0123456789ab
+    accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/metadata.html
+  - path: fdp/dataset/not-a-uuid
+    status: 404
+
+  # SHACL shapes
+  - path: shapes/dataset
+    status: 303
+    location: https://imsounic.github.io/fair-ut-group33/shapes/dataset.ttl
+
+  # Landing page
+  - pid: https://w3id.org/FAIR-course-UT/2026/group33/
+    status: 302
+    location: https://imsounic.github.io/fair-ut-group33/
+  - path: something-else
+    status: 404
