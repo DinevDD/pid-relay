@@ -1,0 +1,21 @@
+# Group 02 (Ramish Bhutto): FAIRified Steam Store Games
+# https://w3id.org/FAIR-course-UT/2026/group02/...
+RewriteEngine on
+
+# Ontology: browsers get the folder page, all other clients the Turtle file.
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^ont$ https://github.com/ramishb/FairSteam/tree/main/Ontology [R=303,L]
+
+RewriteRule ^ont$ https://github.com/ramishb/FairSteam/raw/main/Ontology/steam_ont.ttl [R=303,L]
+
+# FAIRified data: browsers get the folder page, all other clients the Turtle file.
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data$ https://github.com/ramishb/FairSteam/tree/main/Data/Fairified [R=303,L]
+
+RewriteRule ^data$ https://github.com/ramishb/FairSteam/raw/main/Data/Fairified/steam_top1000.ttl [R=303,L]
+
+# Original data (CSV distribution).
+RewriteRule ^data/csv$ https://github.com/ramishb/FairSteam/raw/main/Data/Original/steam_top1000.csv [R=302,L]
+
+# Namespace root: the project repository.
+RewriteRule ^$ https://github.com/ramishb/FairSteam [R=302,L]

@@ -1,0 +1,42 @@
+# Each test is one request to an identifier and the redirect expected.
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group02/ont
+    accept: text/turtle
+    status: 303
+    location: https://github.com/ramishb/FairSteam/raw/main/Ontology/steam_ont.ttl
+
+  - path: ont
+    note: clients without an Accept header (e.g. Protege, rdflib) get the Turtle file
+    status: 303
+    location: https://github.com/ramishb/FairSteam/raw/main/Ontology/steam_ont.ttl
+
+  - path: ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/ramishb/FairSteam/tree/main/Ontology
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group02/data
+    accept: text/turtle
+    status: 303
+    location: https://github.com/ramishb/FairSteam/raw/main/Data/Fairified/steam_top1000.ttl
+
+  - path: data
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/ramishb/FairSteam/tree/main/Data/Fairified
+
+  - path: data/csv
+    status: 302
+    location: https://github.com/ramishb/FairSteam/raw/main/Data/Original/steam_top1000.csv
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group02/
+    note: the namespace root leads to the project repository
+    status: 302
+    location: https://github.com/ramishb/FairSteam
+
+  - path: ontology
+    note: identifiers that are not defined are not redirected
+    status: 404
+
+  - path: data/ttl
+    status: 404
