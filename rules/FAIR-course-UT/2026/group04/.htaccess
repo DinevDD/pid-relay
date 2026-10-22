@@ -1,0 +1,28 @@
+# https://w3id.org/FAIR-course-UT/2026/group04/...
+# MIMIC-IV ICU vitals, FHIR-based RDF. Targets live in
+# https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV
+RewriteEngine on
+
+# 1. Dataset description (DCAT): Turtle for machines, GitHub repository page for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^dataset/mimic-iv$ https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/metadata/mimic-iv-RDF_metadata.ttl [R=303,L]
+
+RewriteRule ^dataset/mimic-iv$ https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV [R=303,L]
+
+# 2. RDF distribution (accessURL in the DCAT): the Turtle file.
+RewriteRule ^dataset/mimic-iv/rdf$ https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl [R=303,L]
+
+# 3. SHACL shapes (dct:conformsTo in the DCAT, and the # fragments inside it).
+RewriteRule ^shapes/mimic-iv$ https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/metadata/mimic-iv-shacl_metadata.ttl [R=303,L]
+
+# 4. Individual resources: Turtle for machines, repository page for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data/(patient|hospital-encounter|icu-encounter|observation|condition|location)-[A-Za-z0-9-]+$ https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl [R=303,L]
+
+RewriteRule ^data/(patient|hospital-encounter|icu-encounter|observation|condition|location)-[A-Za-z0-9-]+$ https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/rdf [R=303,L]
+
+# 5. FHIR extensions used in the data: documentation in the repository.
+RewriteRule ^fhir/StructureDefinition/[A-Za-z0-9-]+$ https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/docs [R=303,L]
+
+# 6. Anything else: the group's landing page.
+RewriteRule ^$ https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV [R=302,L]
