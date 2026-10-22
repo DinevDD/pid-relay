@@ -5,6 +5,9 @@
 # Fragments (data#P000035, ont#WorldBankProject) are not sent to the server, so they resolve with data and ont.
 RewriteEngine on
 
+# The target depends on the Accept header, so tell caches to keep the answers apart.
+Header always append Vary Accept
+
 # Ontology (ontology IRI .../ont and version IRI .../ont/1.0.0)
 RewriteCond %{HTTP_ACCEPT} text/html
 RewriteRule ^ont(/1\.0\.0)?$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf [R=303,L]
