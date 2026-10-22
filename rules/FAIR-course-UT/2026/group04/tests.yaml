@@ -20,41 +20,16 @@ tests:
     status: 303
     location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/metadata/mimic-iv-shacl_metadata.ttl
 
-  # 4. Resources (content negotiation)
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/patient-10023117
+  # 4. Resources: hash IRIs such as data#patient-10023117 arrive as "data"
+  - path: data
     accept: text/turtle
     status: 303
     location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl
 
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/patient-10023117
+  - path: data
     accept: text/html,application/xhtml+xml
     status: 303
     location: https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/rdf
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/observation-30057454-21711114T102600-220277
-    accept: text/turtle
-    status: 303
-    location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/icu-encounter-30057454
-    accept: text/html
-    status: 303
-    location: https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/rdf
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/hospital-encounter-20044587
-    accept: text/html
-    status: 303
-    location: https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/rdf
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/condition-20044587
-    accept: text/html
-    status: 303
-    location: https://github.com/Kopaki-git/FAIRifaction-MIMIC_IV/tree/main/rdf
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group04/data/location-medical-intensive-care-unit-micu
-    accept: text/turtle
-    status: 303
-    location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl
 
   # 5. FHIR extensions
   - path: fhir/StructureDefinition/observation-mimic-warning
@@ -78,4 +53,8 @@ tests:
 
   - path: data/unknown-123
     note: unknown resource types are not redirected
+    status: 404
+
+  - path: data/patient-10023117
+    note: resources use hash IRIs (data#...); slash forms are not identifiers
     status: 404
