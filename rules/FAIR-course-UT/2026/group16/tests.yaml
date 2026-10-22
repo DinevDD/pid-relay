@@ -1,0 +1,59 @@
+# Group 16 - expected redirects for every rule in .htaccess
+tests:
+  # Ontology
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
+    accept: application/rdf+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
+
+  - path: ont/1.0.0
+    note: the version IRI of the ontology resolves to the same file
+    accept: application/rdf+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
+
+  - path: ont/1.0.0
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
+
+  # FAIRified data
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
+    accept: text/turtle
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/rdf/worldbank-projects.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/rdf/worldbank-projects.ttl
+
+  # Original data
+  - path: data/original
+    accept: text/csv
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/original/worldbank-projects-original.csv
+
+  - path: data/original
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv
+
+  # Namespace root
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/
+    status: 302
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata
+
+  # Paths that are not identifiers
+  - path: ontology
+    note: only "ont" is an identifier
+    status: 404
+
+  - path: data/originals
+    note: only "data" and "data/original" are identifiers
+    status: 404
