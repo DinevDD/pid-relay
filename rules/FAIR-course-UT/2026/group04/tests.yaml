@@ -15,6 +15,14 @@ tests:
     status: 303
     location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/rdf/mimic_icu_vitals_4h.ttl
 
+  - path: dataset/mimic-iv/source
+    status: 303
+    location: https://physionet.org/content/mimic-iv-demo/get-zip/2.2/
+
+  - path: dataset/mimic-iv/csv
+    status: 303
+    location: https://raw.githubusercontent.com/Kopaki-git/FAIRifaction-MIMIC_IV/main/data/derived/mimic_icu_vitals_4h.zip
+
   # 3. SHACL shapes
   - path: shapes/mimic-iv
     status: 303
