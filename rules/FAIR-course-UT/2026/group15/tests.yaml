@@ -1,0 +1,36 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group15/ont
+    status: 303
+    location: https://github.com/djactor/FAIRifaction-project/raw/main/ontology/benelux-population-ontology.ttl
+
+  - path: data/rdf
+    note: downloadURL of the RDF distribution
+    status: 302
+    location: https://github.com/djactor/FAIRifaction-project/raw/main/data/rdf/benelux-city-population.ttl
+
+  - path: data/csv
+    note: downloadURL of the original CSV distribution
+    status: 302
+    location: https://github.com/djactor/FAIRifaction-project/raw/main/data/original/Benelux_data.csv
+
+  - path: data
+    note: data#observation-1 and every other data IRI arrive here
+    status: 303
+    location: https://github.com/djactor/FAIRifaction-project/raw/main/data/rdf/benelux-city-population.ttl
+
+  - path: metadata-schema
+    status: 303
+    location: https://github.com/djactor/FAIRifaction-project/tree/main/metadata/schemas
+
+  - path: shapes
+    status: 303
+    location: https://github.com/djactor/FAIRifaction-project/raw/main/shapes/population-data-shape.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group15/
+    note: the namespace itself
+    status: 302
+    location: https://github.com/djactor/FAIRifaction-project
+
+  - path: data/xml
+    note: anything else is not an identifier
+    status: 404
