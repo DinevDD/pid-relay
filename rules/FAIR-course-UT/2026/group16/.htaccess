@@ -1,27 +1,17 @@
-# Group 16 - FAIRification of the World Bank Projects & Operations sample
-# Namespace: https://w3id.org/FAIR-course-UT/2026/group16/
-# Files: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata
-# Browsers (text/html) get the GitHub page of a file; all other clients get the raw file itself.
-# Fragments (data#P000035, ont#WorldBankProject) are not sent to the server, so they resolve with data and ont.
 RewriteEngine on
 
-# The target depends on the Accept header, so tell caches to keep the answers apart.
 Header always append Vary Accept
 
-# Ontology (ontology IRI .../ont and version IRI .../ont/1.0.0)
 RewriteCond %{HTTP_ACCEPT} text/html
 RewriteRule ^ont(/1\.0\.0)?$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf [R=303,L]
 RewriteRule ^ont(/1\.0\.0)?$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf [R=303,L]
 
-# FAIRified data (RDF, Turtle)
 RewriteCond %{HTTP_ACCEPT} text/html
 RewriteRule ^data$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/rdf/worldbank-projects.ttl [R=303,L]
 RewriteRule ^data$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/rdf/worldbank-projects.ttl [R=303,L]
 
-# Original data (CSV)
 RewriteCond %{HTTP_ACCEPT} text/html
 RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv [R=303,L]
 RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/original/worldbank-projects-original.csv [R=303,L]
 
-# The namespace itself: the project repository
 RewriteRule ^$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata [R=302,L]
