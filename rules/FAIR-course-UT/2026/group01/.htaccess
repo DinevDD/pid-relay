@@ -1,0 +1,14 @@
+RewriteEngine on
+
+# Ontology
+RewriteRule ^ont$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/ontology/Meteorite_Ontology.owl [R=302,L]
+
+# Data distributions
+RewriteRule ^data$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/rdf/Meteorite_Falls_RDF.ttl [R=302,L]
+RewriteRule ^data/rdf$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/rdf/Meteorite_Falls_RDF.ttl [R=302,L]
+RewriteRule ^data/csv$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/data/prepared/Meteorite_Falls_prepared.csv [R=302,L]
+
+# Metadata records
+RewriteRule ^meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl [R=302,L]
+RewriteRule ^meta/distribution/meteorite-witnessed-falls-original-csv$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_csv.ttl [R=302,L]
+RewriteRule ^meta/distribution/meteorite-witnessed-falls-fairified-rdf$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_rdf.ttl [R=302,L]

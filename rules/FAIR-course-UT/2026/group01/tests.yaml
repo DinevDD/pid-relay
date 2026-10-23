@@ -1,0 +1,28 @@
+tests:
+  - path: ont
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/ontology/Meteorite_Ontology.owl
+
+  - path: data
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/rdf/Meteorite_Falls_RDF.ttl
+
+  - path: data/rdf
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/rdf/Meteorite_Falls_RDF.ttl
+
+  - path: data/csv
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/data/prepared/Meteorite_Falls_prepared.csv
+
+  - path: meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl
+
+  - path: meta/distribution/meteorite-witnessed-falls-original-csv
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_csv.ttl
+
+  - path: meta/distribution/meteorite-witnessed-falls-fairified-rdf
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_rdf.ttl
