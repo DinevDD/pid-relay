@@ -10,3 +10,15 @@ tests:
   - path: data-original
     status: 303
     location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance.csv
+
+  - path: metadata-dataset
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/dataset_metadata.ttl
+
+  - path: metadata-original
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/distribution_original_metadata.ttl
+
+  - path: metadata-rdf
+    status: 303
+    location: https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/distribution_rdf_metadata.ttl

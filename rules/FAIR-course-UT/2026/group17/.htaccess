@@ -5,3 +5,9 @@ RewriteRule ^ont$ https://raw.githubusercontent.com/Droessoe/fair-student-perfor
 RewriteRule ^data$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance_data.ttl [R=303,L]
 
 RewriteRule ^data-original$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/data/student_exam_performance.csv [R=303,L]
+
+RewriteRule ^metadata-dataset$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/dataset_metadata.ttl [R=303,L]
+
+RewriteRule ^metadata-original$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/distribution_original_metadata.ttl [R=303,L]
+
+RewriteRule ^metadata-rdf$ https://raw.githubusercontent.com/Droessoe/fair-student-performance-group17/refs/heads/main/metadata/distribution_rdf_metadata.ttl [R=303,L]
