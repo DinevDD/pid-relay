@@ -1,0 +1,60 @@
+# Each test is one request to an identifier and the redirect we expect.
+tests:
+  - path: data
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/data/rdf/artists.ttl
+
+  - path: data
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/d-mau-m/fair_group_3/tree/main/data/rdf
+
+  - path: ont
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/ontology/ont.ttl
+
+  - path: ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/d-mau-m/fair_group_3/tree/main/ontology
+
+  - path: metadata
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/metadata/dataset.ttl
+
+  - path: metadata
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/d-mau-m/fair_group_3/tree/main/metadata
+
+  - path: shapes
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/shapes/artist-shapes.ttl
+
+  - path: shapes
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/d-mau-m/fair_group_3/tree/main/shapes
+
+  - path: metadata-shapes
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/metadata/metadata-shapes.ttl
+
+  - path: metadata-shapes
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/d-mau-m/fair_group_3/tree/main/metadata
+
+  - path: ""
+    note: the namespace root goes to the project repository
+    status: 302
+    location: https://github.com/d-mau-m/fair_group_3
+
+  - path: data/extra
+    note: paths we did not define are not redirected
+    status: 404

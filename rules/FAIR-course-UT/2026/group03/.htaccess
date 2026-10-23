@@ -1,0 +1,33 @@
+# Group 03 - FAIRified Tate collection artist data
+# https://w3id.org/FAIR-course-UT/2026/group03/...
+# Maintainers: Sepehr Shamlooheravi, Mauricio Marin Araya (University of Twente)
+# GitHub username: sepehrshm, d-mau-m
+RewriteEngine on
+
+# Artists (data#<row>): the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data$ https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/data/rdf/artists.ttl [R=303,L]
+RewriteRule ^data$ https://github.com/d-mau-m/fair_group_3/tree/main/data/rdf [R=303,L]
+
+# Ontology terms (ont#<term>): the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont$ https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/ontology/ont.ttl [R=303,L]
+RewriteRule ^ont$ https://github.com/d-mau-m/fair_group_3/tree/main/ontology [R=303,L]
+
+# Metadata records (metadata#dataset, metadata#dist-rdf, ...): the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^metadata$ https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/metadata/dataset.ttl [R=303,L]
+RewriteRule ^metadata$ https://github.com/d-mau-m/fair_group_3/tree/main/metadata [R=303,L]
+
+# SHACL shapes for the artist data: the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^shapes$ https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/shapes/artist-shapes.ttl [R=303,L]
+RewriteRule ^shapes$ https://github.com/d-mau-m/fair_group_3/tree/main/shapes [R=303,L]
+
+# Metadata schemas (metadata-shapes#...): the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^metadata-shapes$ https://raw.githubusercontent.com/d-mau-m/fair_group_3/main/metadata/metadata-shapes.ttl [R=303,L]
+RewriteRule ^metadata-shapes$ https://github.com/d-mau-m/fair_group_3/tree/main/metadata [R=303,L]
+
+# Namespace root: the project repository.
+RewriteRule ^$ https://github.com/d-mau-m/fair_group_3 [R=302,L]
