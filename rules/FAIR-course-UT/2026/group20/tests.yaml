@@ -1,25 +1,11 @@
-# Each test is one request to the identifier and the redirect you expect.
+# tests.yaml
 tests:
-  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
-    accept: text/turtle
+  - path: ont
+    note: vocabulary terms resolve to the ontology document
     status: 303
-    location: https://example.org/group20/datasets/rivers.ttl
+    location: https://raw.githubusercontent.com/PedroOliveira42/deleteme/main/data/hourlyBikeRentalOnt.ttl
 
-  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
-    accept: application/ld+json
-    status: 303
-    location: https://example.org/group20/datasets/rivers.jsonld
-
-  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
-    accept: text/html,application/xhtml+xml
-    status: 303
-    location: https://example.org/group20/datasets/rivers.html
-
-  - path: vocab/River
-    note: vocabulary terms resolve to the ontology
-    status: 303
-    location: https://example.org/group20/vocab.ttl
-
-  - path: dataset/Not_Valid
-    note: identifiers outside the pattern are not redirected
-    status: 404
+  - path: ""
+    note: the base URI redirects to the group landing page
+    status: 302
+    location: https://github.com/PedroOliveira42/deleteme
