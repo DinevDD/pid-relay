@@ -1,0 +1,29 @@
+# Every rule in .htaccess has one test. Each location must match its rule exactly.
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group23/
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23
+  - path: ont
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/ontology/library-ontology.ttl
+  - path: data
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/data/rdf/library.ttl
+  - path: dataset
+    status: 303
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23
+  - path: distribution/original-csv
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/data/library_catalogue_original.csv
+  - path: distribution/ttl
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/data/rdf/library.ttl
+  - path: shapes/dataset
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/shapes/dataset-shape.ttl
+  - path: shapes/distribution
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/shapes/distribution-shape.ttl
+  - path: shapes/book
+    status: 302
+    location: https://github.com/Tanrat23/library-catalogue-FAIRification-group23/raw/main/shapes/book-shape.ttl
