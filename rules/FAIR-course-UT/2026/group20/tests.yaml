@@ -1,0 +1,25 @@
+# Each test is one request to the identifier and the redirect you expect.
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
+    accept: text/turtle
+    status: 303
+    location: https://example.org/group20/datasets/rivers.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
+    accept: application/ld+json
+    status: 303
+    location: https://example.org/group20/datasets/rivers.jsonld
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group20/dataset/rivers
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://example.org/group20/datasets/rivers.html
+
+  - path: vocab/River
+    note: vocabulary terms resolve to the ontology
+    status: 303
+    location: https://example.org/group20/vocab.ttl
+
+  - path: dataset/Not_Valid
+    note: identifiers outside the pattern are not redirected
+    status: 404
