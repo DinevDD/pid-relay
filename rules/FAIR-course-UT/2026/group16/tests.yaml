@@ -1,28 +1,33 @@
 tests:
-  - path: ont
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
     accept: application/rdf+xml
     status: 303
     location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
 
-  - path: ont
-    accept: text/html
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
+    accept: text/html,application/xhtml+xml
     status: 303
-    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
 
   - path: ont/1.0.0
     accept: application/rdf+xml
     status: 303
     location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
 
-  - path: data
+  - path: ont/1.0.0
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
     accept: text/turtle
     status: 303
     location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/rdf/worldbank-projects.ttl
 
-  - path: data
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
     accept: text/html,application/xhtml+xml
     status: 303
-    location: https://w3id.org/FAIR-course-UT/2026/group16/metadata
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/rdf/worldbank-projects.ttl
 
   - path: data/original
     accept: text/csv
@@ -32,7 +37,7 @@ tests:
   - path: data/original
     accept: text/html
     status: 303
-    location: https://w3id.org/FAIR-course-UT/2026/group16/metadata
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv
 
   - path: data/clean
     accept: text/csv
@@ -42,7 +47,7 @@ tests:
   - path: data/clean
     accept: text/html
     status: 303
-    location: https://w3id.org/FAIR-course-UT/2026/group16/metadata
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/clean/worldbank-projects-clean.csv
 
   - path: metadata
     accept: text/turtle
