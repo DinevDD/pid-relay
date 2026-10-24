@@ -1,10 +1,16 @@
 # tests.yaml
 tests:
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group20/data/london_bikes
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/PedroOliveira42/deleteme/refs/heads/main/data/london_bikes.ttl
+
   - path: ont
     note: vocabulary terms resolve to the ontology document
     status: 303
     location: https://raw.githubusercontent.com/PedroOliveira42/deleteme/main/data/hourlyBikeRentalOnt.ttl
-
+    
   - path: ""
     note: the base URI redirects to the group landing page
     status: 302

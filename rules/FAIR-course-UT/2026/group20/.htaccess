@@ -3,12 +3,13 @@ RewriteEngine on
 
 # # Dataset descriptions: RDF for machines, HTML for people (content negotiation).
 # # Redirects all data entity URIs to the specific dataset file.
-# RewriteCond %{HTTP_ACCEPT} text/turtle
-# RewriteRule ^data(/.*)?$ https://raw.githubusercontent.com/PedroOliveira42/pid-relay/main/rules/FAIR-course-UT/2026/group20/data/london_bikes.ttl [R=303,L]
-# RewriteCond %{HTTP_ACCEPT} application/ld\+json
-# RewriteRule ^data(/.*)?$ https://example.org/group20/london_bikes.jsonld [R=303,L]
-# # Default fallback for dataset to HTML representation.
-# RewriteRule ^data(/.*)?$ https://github.com/PedroOliveira42/deleteme/tree/main/data [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data/([a-z_0-9-]+)$ https://raw.githubusercontent.com/PedroOliveira42/deleteme/refs/heads/main/data/$1.ttl [R=303,L]
+
+
+# Default fallback for dataset to HTML representation.
+RewriteRule ^data(/.*)?$ https://github.com/PedroOliveira42/deleteme/tree/main/data [R=303,L]
 
 # Vocabulary terms all resolve to the ontology document.
 RewriteRule ^ont/?$ https://raw.githubusercontent.com/PedroOliveira42/deleteme/main/data/hourlyBikeRentalOnt.ttl [R=303,L]
