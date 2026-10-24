@@ -1,0 +1,13 @@
+RewriteEngine on
+
+# Ontology
+RewriteRule ^ont$ https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/ont/carcrash_ont.ttl [R=303,L]
+
+# FAIRified data
+RewriteRule ^data$ https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/rdf/carcrash_dataset_clean.ttl [R=303,L]
+
+# Original data
+RewriteRule ^data/original$ https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/og/carcrash_dataset_original.csv [R=303,L]
+
+# Landing page
+RewriteRule ^$ https://github.com/jellevdbrink/fair-data-engineering [R=302,L]
