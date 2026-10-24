@@ -14,4 +14,8 @@ RewriteCond %{HTTP_ACCEPT} text/html
 RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv [R=303,L]
 RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/original/worldbank-projects-original.csv [R=303,L]
 
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data/clean$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/clean/worldbank-projects-clean.csv [R=303,L]
+RewriteRule ^data/clean$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/clean/worldbank-projects-clean.csv [R=303,L]
+
 RewriteRule ^$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata [R=302,L]
