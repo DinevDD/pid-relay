@@ -1,5 +1,4 @@
-# Replace with your two GitHub usernames (the account each of you uses to
-# open the pull request). This is what locks the folder to you after your
-# first PR is merged - only these accounts can change it afterwards.
-github: [REPLACE_WITH_KISHOR_GITHUB_USERNAME, akshayasuresh414]
+# Claimed by the first pull request into this folder.
+# Only these GitHub users may change it from now on.
+github: [akshayasuresh414, replace_with_kishor_github_username]
 accounts: []
