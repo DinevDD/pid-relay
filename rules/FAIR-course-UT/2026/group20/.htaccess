@@ -7,6 +7,8 @@ RewriteEngine on
 RewriteCond %{HTTP_ACCEPT} text/turtle
 RewriteRule ^data/([a-z_0-9-]+)$ https://raw.githubusercontent.com/PedroOliveira42/deleteme/refs/heads/main/data/$1.ttl [R=303,L]
 
+RewriteRule ^data/([a-z_0-9-]+)$ https://github.com/PedroOliveira42/deleteme/blob/main/data/$1.ttl [R=303,L]
+
 
 # Default fallback for dataset to HTML representation.
 RewriteRule ^data(/.*)?$ https://github.com/PedroOliveira42/deleteme/tree/main/data [R=303,L]
