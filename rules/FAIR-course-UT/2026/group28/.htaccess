@@ -1,0 +1,17 @@
+RewriteEngine On
+Header always append Vary Accept
+
+# Ontology
+RewriteRule ^ont(/1\.0\.0)?$ https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/ontology/dutch_electricity_ontology.owx [R=303,L]
+
+# FAIRified RDF data
+RewriteRule ^data$ https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/rdf/coteq_electricity_2013.ttl [R=303,L]
+
+# Original CSV
+RewriteRule ^data/original$ https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/data/raw/coteq_electricity_2013.csv [R=303,L]
+
+# Dataset metadata
+RewriteRule ^metadata$ https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/reports/dataset_metadata.ttl [R=303,L]
+
+# Project repository landing page
+RewriteRule ^$ https://github.com/varshavasaraju/Dutch-Electricity-Fair-Data/tree/main/Dutch_Electricity_fair_project [R=302,L]

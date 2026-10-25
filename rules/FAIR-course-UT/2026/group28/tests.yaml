@@ -1,0 +1,72 @@
+tests:
+  # Ontology
+  - pid: https://w3id.org/FAIR-course-UT/2026/group28/ont
+    accept: application/rdf+xml
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/ontology/dutch_electricity_ontology.owx
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group28/ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/ontology/dutch_electricity_ontology.owx
+
+  - path: ont/1.0.0
+    accept: application/rdf+xml
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/ontology/dutch_electricity_ontology.owx
+
+  - path: ont/1.0.0
+    accept: text/html
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/ontology/dutch_electricity_ontology.owx
+
+  # FAIRified RDF data
+  - pid: https://w3id.org/FAIR-course-UT/2026/group28/data
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/rdf/coteq_electricity_2013.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group28/data
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/rdf/coteq_electricity_2013.ttl
+
+  # Original CSV
+  - path: data/original
+    accept: text/csv
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/data/raw/coteq_electricity_2013.csv
+
+  - path: data/original
+    accept: text/html
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/data/raw/coteq_electricity_2013.csv
+
+  # Dataset metadata
+  - path: metadata
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/reports/dataset_metadata.ttl
+
+  - path: metadata
+    accept: text/html
+    status: 303
+    location: https://raw.githubusercontent.com/varshavasaraju/Dutch-Electricity-Fair-Data/main/Dutch_Electricity_fair_project/reports/dataset_metadata.ttl
+
+  # Project repository landing page
+  - pid: https://w3id.org/FAIR-course-UT/2026/group28/
+    status: 302
+    location: https://github.com/varshavasaraju/Dutch-Electricity-Fair-Data/tree/main/Dutch_Electricity_fair_project
+
+  # Expected 404 paths
+  - path: ontology
+    status: 404
+
+  - path: data/originals
+    status: 404
+
+  - path: data/cleaned
+    status: 404
+
+  - path: metadata/dataset
+    status: 404
