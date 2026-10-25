@@ -8,10 +8,7 @@ RewriteCond %{HTTP_ACCEPT} text/turtle
 RewriteRule ^data/(.+)$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/$1.ttl [R=303,L]
 
 # Human-readable fallback for data
-# RewriteRule ^data/(.+)$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/$1.html [R=303,L]
-
-RewriteRule ^data/([a-z_0-9-]+)$ https://github.com/PedroOliveira42/deleteme/blob/main/data/$1.ttl [R=303,L]
-
+RewriteRule ^data/(.+)$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/$1.html [R=303,L]
 
 # Fallback for dataset root.
 RewriteRule ^data/?$ https://github.com/rubuy-74/fair-project/tree/main/data [R=303,L]
