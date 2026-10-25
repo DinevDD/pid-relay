@@ -1,0 +1,11 @@
+RewriteEngine on
+
+# Ontology (Protégé Ontology IRI): single Turtle representation, no separate HTML landing page.
+RewriteRule ^ont$ https://github.com/LP0rc3lli/fair-baci-trade/raw/main/ontology/baci-ontology.ttl [R=303,L]
+
+# Data base URI (OpenRefine RDF extension Base URI). Serves the graph that all data#... subjects are described in.
+RewriteRule ^data$ https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/fairified/baci_hs22_2023_chipmaking-inputs.ttl [R=303,L]
+
+# Distribution download URLs, used as dcat:downloadURL in the metadata records.
+RewriteRule ^dataset/original$ https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/original/baci_hs22_2023_chipmaking-inputs_original.csv [R=303,L]
+RewriteRule ^dataset/fairified$ https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/fairified/baci_hs22_2023_chipmaking-inputs.ttl [R=303,L]

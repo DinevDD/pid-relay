@@ -1,0 +1,21 @@
+---
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group13/ont
+    status: 303
+    location: https://github.com/LP0rc3lli/fair-baci-trade/raw/main/ontology/baci-ontology.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group13/data
+    status: 303
+    location: https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/fairified/baci_hs22_2023_chipmaking-inputs.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group13/dataset/original
+    status: 303
+    location: https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/original/baci_hs22_2023_chipmaking-inputs_original.csv
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group13/dataset/fairified
+    status: 303
+    location: https://github.com/LP0rc3lli/fair-baci-trade/raw/main/data/fairified/baci_hs22_2023_chipmaking-inputs.ttl
+
+  - path: dataset/Not_Valid
+    note: identifiers outside the defined pattern are not redirected
+    status: 404
