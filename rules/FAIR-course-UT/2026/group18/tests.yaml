@@ -1,0 +1,38 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/ont
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/ontology/disruptions-ontology.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/bala7708/fair-train-disruptions/blob/main/ontology/disruptions-ontology.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/data
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/data/fairified/disruptions-2024.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/data
+    accept: text/html
+    status: 303
+    location: https://github.com/bala7708/fair-train-disruptions/blob/main/data/fairified/disruptions-2024.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/original
+    accept: text/csv
+    status: 303
+    location: https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/data/original/disruptions-2024.csv
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group18/original
+    accept: text/html
+    status: 303
+    location: https://github.com/bala7708/fair-train-disruptions/blob/main/data/original/disruptions-2024.csv
+
+  - path: ""
+    status: 302
+    location: https://github.com/bala7708/fair-train-disruptions
+
+  - path: something-else
+    note: identifiers outside the rules are not redirected
+    status: 404

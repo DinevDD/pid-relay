@@ -1,0 +1,21 @@
+# Group 18: FAIRification of Dutch train disruption data (Rijden de Treinen, 2024)
+# https://w3id.org/FAIR-course-UT/2026/group18/...
+RewriteEngine on
+
+# Mini-ontology: Turtle for machines, GitHub page for people
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont$ https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/ontology/disruptions-ontology.ttl [R=303,L]
+RewriteRule ^ont$ https://github.com/bala7708/fair-train-disruptions/blob/main/ontology/disruptions-ontology.ttl [R=303,L]
+
+# FAIRified data (all data#... resources live in this document)
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data$ https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/data/fairified/disruptions-2024.ttl [R=303,L]
+RewriteRule ^data$ https://github.com/bala7708/fair-train-disruptions/blob/main/data/fairified/disruptions-2024.ttl [R=303,L]
+
+# Original data as published by Rijden de Treinen
+RewriteCond %{HTTP_ACCEPT} text/csv
+RewriteRule ^original$ https://raw.githubusercontent.com/bala7708/fair-train-disruptions/main/data/original/disruptions-2024.csv [R=303,L]
+RewriteRule ^original$ https://github.com/bala7708/fair-train-disruptions/blob/main/data/original/disruptions-2024.csv [R=303,L]
+
+# Landing page: the project repository
+RewriteRule ^$ https://github.com/bala7708/fair-train-disruptions [R=302,L]
