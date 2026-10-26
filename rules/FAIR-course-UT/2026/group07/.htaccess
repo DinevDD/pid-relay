@@ -5,10 +5,8 @@ RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
 RewriteRule ^dataset/rivers$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-SCHACL-schema.ttl [R=303,L]
 RewriteRule ^dataset/rivers$ https://github.com/DinevDD/global-rivers-fairification [R=303,L]
 
-#Distribution PID
-RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
+#FAIRified RDF distribution
 RewriteRule ^distribution/rivers-ttl$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
-RewriteRule ^distribution/rivers-ttl$ https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl [R=303,L]
 
 #Dataset metadata
 RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
@@ -51,4 +49,4 @@ RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGrou
 RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGroup|ContactGroup|SemanticDocumentationGroup|DataQualityGroup|DatasetShape|DistributionShape|ContactShape|ClassPartitionShape|QualityMeasurementShape)$ https://github.com/DinevDD/global-rivers-fairification/blob/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
 
 #Original Global Rivers CSV distribution
-RewriteRule ^distribution/rivers-original-csv$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/original/global_rivers_dataset.csv [R=302,L]
+RewriteRule ^distribution/rivers-original-csv$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/original/global_rivers_dataset.csv [R=303,L]
