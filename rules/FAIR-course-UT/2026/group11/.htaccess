@@ -1,36 +1,21 @@
-# Birdsoftheworld-fairified dataset, Canvas Group 11.
+# Birdsoftheworld-fairified dataset: https://w3id.org/FAIR-course-UT/2026/group11/...
 RewriteEngine on
 
-Header always merge Vary Accept
+# Ontology identifier resolves to the ontology document.
+RewriteRule ^ont/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/ontology/ontology.ttl [R=303,L]
 
-# One dataset description links the observation and trait distributions.
-RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
-RewriteRule ^dataset/bird-observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/metadata.ttl [R=303,L]
+# Data downloads: fairified RDF and the original CSV, independent of Accept.
+RewriteRule ^data/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/birdsoftheworld-fairified.ttl [R=303,L]
+RewriteRule ^original\.csv$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/preprocessing/Birdsoftheworld.csv [R=303,L]
 
-# Browsers and clients requesting other formats get the dataset landing page.
-RewriteRule ^dataset/bird-observations$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification [R=303,L]
+# Public metadata descriptions for the catalog, dataset and distributions.
+RewriteRule ^metadata/catalog/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog.ttl [R=303,L]
+RewriteRule ^metadata/dataset/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset.ttl [R=303,L]
+RewriteRule ^metadata/distribution-original/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-original.ttl [R=303,L]
+RewriteRule ^metadata/distribution-fairified/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-fairified.ttl [R=303,L]
 
-# Format-independent identifiers for the observations and traits.
-RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
-RewriteRule ^dataset/bird-observations/observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.ttl [R=303,L]
-
-RewriteCond %{HTTP_ACCEPT} text/csv [NC]
-RewriteRule ^dataset/bird-observations/observations$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.csv [R=303,L]
-
-RewriteRule ^dataset/bird-observations/observations$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-observations.ttl [R=303,L]
-
-RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
-RewriteRule ^dataset/bird-observations/traits$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.ttl [R=303,L]
-
-RewriteCond %{HTTP_ACCEPT} text/csv [NC]
-RewriteRule ^dataset/bird-observations/traits$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.csv [R=303,L]
-
-RewriteRule ^dataset/bird-observations/traits$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-trait-observations.ttl [R=303,L]
-
-# Explicit download identifiers select the data part and format, independent of Accept.
-RewriteRule ^dataset/bird-observations/observations\.(ttl|csv)$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.$1 [R=303,L]
-
-RewriteRule ^dataset/bird-observations/traits\.(ttl|csv)$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.$1 [R=303,L]
-
-# The namespace root points to the project.
-RewriteRule ^$ https://github.com/wouter-deen/birdsoftheworld-dataset-fairification [R=302,L]
+# SHACL shapes for validating the metadata descriptions.
+RewriteRule ^schema/catalog/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog-shape.ttl [R=303,L]
+RewriteRule ^schema/dataset/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset-shape.ttl [R=303,L]
+RewriteRule ^schema/distribution/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-shape.ttl [R=303,L]
+RewriteRule ^schema/resource/?$ https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/resource-shape.ttl [R=303,L]
