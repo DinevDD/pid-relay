@@ -49,3 +49,6 @@ RewriteRule ^shapes/metadata-shapes$ https://github.com/DinevDD/global-rivers-fa
 RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
 RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGroup|ContactGroup|SemanticDocumentationGroup|DataQualityGroup|DatasetShape|DistributionShape|ContactShape|ClassPartitionShape|QualityMeasurementShape)$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
 RewriteRule ^shapes/metadata/(GeneralinformationGroup|ProvenanceGroup|AccessGroup|ContactGroup|SemanticDocumentationGroup|DataQualityGroup|DatasetShape|DistributionShape|ContactShape|ClassPartitionShape|QualityMeasurementShape)$ https://github.com/DinevDD/global-rivers-fairification/blob/main/metadata/global-rivers-dataset-metadata-RDF.ttl [R=303,L]
+
+#Original Global Rivers CSV distribution
+RewriteRule ^distribution/rivers-original-csv$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/original/global_rivers_dataset.csv [R=302,L]
