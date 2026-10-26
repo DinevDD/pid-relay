@@ -1,0 +1,29 @@
+# .htaccess
+RewriteEngine on
+
+# # Dataset descriptions: RDF for machines, HTML for people (content negotiation).
+# # Redirects all data entity URIs to the specific dataset file.
+
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data/(.+)$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/$1.ttl [R=303,L]
+
+# Human-readable fallback for data
+RewriteRule ^data/(.+)$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/$1.html [R=303,L]
+
+# Fallback for dataset root.
+RewriteRule ^data/?$ https://github.com/rubuy-74/fair-project/tree/main/data [R=303,L]
+
+# Vocabulary terms all resolve to the ontology document.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont/?$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/data/hourlyBikeRentalOnt.ttl [R=303,L]
+
+# Ontology in human readable way
+RewriteRule ^ont/?$ https://github.com/rubuy-74/fair-project/blob/main/data/hourlyBikeRentalOnt.ttl [R=303,L]
+
+# Metadata records (metadata#dataset, metadata#dist-rdf, ...): the Turtle file for machines, its repository folder for people.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^metadata$ https://raw.githubusercontent.com/rubuy-74/fair-project/main/metadata/published/dataset.ttl [R=303,L]
+RewriteRule ^metadata$ https://github.com/rubuy-74/fair-project/tree/main/metadata/published [R=303,L]
+
+# Anything else: the group's landing page.
+RewriteRule ^$ https://github.com/rubuy-74/fair-project [R=302,L]

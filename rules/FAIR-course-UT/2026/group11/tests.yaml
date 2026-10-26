@@ -1,94 +1,128 @@
 tests:
-    - pid: https://w3id.org/FAIR-course-UT/2026/group11/dataset/bird-observations
+    - pid: https://w3id.org/FAIR-course-UT/2026/group11/ont
       accept: text/turtle
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/metadata.ttl
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/ontology/ontology.ttl
 
-    - path: dataset/bird-observations
-      accept: text/html,application/xhtml+xml
+    - path: ont/
       status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/ontology/ontology.ttl
 
-    - path: dataset/bird-observations
-      note: requests without an Accept header get the dataset landing page
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification
-
-    - path: dataset/bird-observations
-      accept: text/csv
-      note: CSV downloads are selected through the explicit distribution identifiers
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification
-
-    - path: dataset/bird-observations/observations
+    - path: data
       accept: text/turtle
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.ttl
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/birdsoftheworld-fairified.ttl
 
-    - path: dataset/bird-observations/observations
+    - path: data/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/birdsoftheworld-fairified.ttl
+
+    - path: original.csv
       accept: text/csv
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.csv
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/preprocessing/Birdsoftheworld.csv
 
-    - path: dataset/bird-observations/observations
-      accept: text/html,application/xhtml+xml
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-observations.ttl
-
-    - path: dataset/bird-observations/observations
-      note: requests without an Accept header get the observations file page
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-observations.ttl
-
-    - path: dataset/bird-observations/traits
+    - path: metadata/catalog
       accept: text/turtle
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.ttl
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog.ttl
 
-    - path: dataset/bird-observations/traits
+    - path: metadata/catalog/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog.ttl
+
+    - path: metadata/dataset
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset.ttl
+
+    - path: metadata/dataset/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset.ttl
+
+    - path: metadata/distribution-original
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-original.ttl
+
+    - path: metadata/distribution-original/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-original.ttl
+
+    - path: metadata/distribution-fairified
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-fairified.ttl
+
+    - path: metadata/distribution-fairified/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-fairified.ttl
+
+    - path: schema/catalog
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog-shape.ttl
+
+    - path: schema/catalog/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/catalog-shape.ttl
+
+    - path: schema/dataset
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset-shape.ttl
+
+    - path: schema/dataset/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset-shape.ttl
+
+    - path: schema/distribution
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-shape.ttl
+
+    - path: schema/distribution/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/distribution-shape.ttl
+
+    - path: schema/resource
+      accept: text/turtle
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/resource-shape.ttl
+
+    - path: schema/resource/
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/resource-shape.ttl
+
+    - path: metadata/dataset
+      accept: text/html,application/xhtml+xml
+      note: browsers receive the same metadata target; there is no content negotiation
+      status: 303
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/metadata/dataset.ttl
+
+    - path: data
       accept: text/csv
+      note: Accept does not change the fairified data target
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.csv
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/birdsoftheworld-fairified.ttl
 
-    - path: dataset/bird-observations/traits
-      accept: text/html,application/xhtml+xml
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-trait-observations.ttl
-
-    - path: dataset/bird-observations/traits
-      note: requests without an Accept header get the traits file page
-      status: 303
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification/blob/main/data/bird-trait-observations.ttl
-
-    - path: dataset/bird-observations/observations.ttl
-      status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.ttl
-
-    - path: dataset/bird-observations/observations.csv
-      status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.csv
-
-    - path: dataset/bird-observations/traits.ttl
-      status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.ttl
-
-    - path: dataset/bird-observations/traits.csv
-      status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.csv
-
-    - path: dataset/bird-observations/observations.ttl
-      accept: text/html
-      note: explicit downloads do not depend on the Accept header
-      status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-observations.ttl
-
-    - path: dataset/bird-observations/traits.csv
+    - path: original.csv
       accept: text/turtle
-      note: the extension selects the download format even when Accept differs
+      note: the original CSV target does not depend on Accept
       status: 303
-      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/data/bird-trait-observations.csv
+      location: https://raw.githubusercontent.com/wouter-deen/birdsoftheworld-dataset-fairification/main/preprocessing/Birdsoftheworld.csv
 
-    - path: ""
-      note: the namespace root redirects to the project
-      status: 302
-      location: https://github.com/wouter-deen/birdsoftheworld-dataset-fairification
+    - path: original.csv/
+      note: the original CSV rule does not allow a trailing slash
+      status: 404
+
+    - path: originalXcsv
+      note: the dot in original.csv is literal
+      status: 404
+
+    - path: metadata/dataset/rights
+      note: fragment nodes do not introduce extra HTTP paths
+      status: 404
+
+    - path: unknown
+      status: 404

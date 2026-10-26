@@ -1,0 +1,16 @@
+RewriteEngine on
+
+# Ontology: the ontology IRI and all its terms (ont#...) resolve to the Turtle file
+RewriteRule ^ont/?$ https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/ontology/epl-ontology.ttl [R=303,L]
+
+# FAIRified RDF data: the data IRI and all match resources (data#...) resolve to the Turtle file
+RewriteRule ^data/?$ https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/data/rdf/epl-2425.ttl [R=303,L]
+
+# Original dataset (CSV as published on DataHub)
+RewriteRule ^original/?$ https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/data/original/premier-league-2024-2025-original.csv [R=303,L]
+
+# Metadata records: dataset, distribution-original, distribution-rdf
+RewriteRule ^metadata/([a-z-]+)$ https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/metadata/records/$1.ttl [R=303,L]
+
+# Group landing page
+RewriteRule ^$ https://github.com/victordelgadoplacido/fair-epl-2425-group8 [R=302,L]

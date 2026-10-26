@@ -1,0 +1,44 @@
+# Group 26 (FAIR Data Engineering, 2026) - W3ID redirect rules
+#
+# IMPORTANT: Replace akshayasuresh414 and fair-shipwrecks-group26 below with your actual
+# GitHub username/organisation and repository name BEFORE opening the
+# pull request, and make sure the file paths after /raw/main/ match
+# exactly where you uploaded each file in your repository.
+#
+# This file goes into: rules/FAIR-course-UT/2026/group26/.htaccess
+# in your fork of https://github.com/luizbonino/pid-relay
+
+RewriteEngine on
+
+# --- Ontology: https://w3id.org/FAIR-course-UT/2026/group26/ont ---
+# RDF for machines (Protege resolves concept URIs like ont#Shipwreck by
+# stripping the fragment client-side, so one rule for "ont" covers them all)
+RewriteCond %{HTTP_ACCEPT} text/turtle [OR]
+RewriteCond %{HTTP_ACCEPT} application/rdf\+xml [OR]
+RewriteCond %{HTTP_ACCEPT} application/ld\+json
+RewriteRule ^ont$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/ontology/group26-ont.ttl [R=303,L]
+
+# HTML for people (falls through here when Accept is not an RDF type)
+RewriteRule ^ont$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/ontology/group26-ont.ttl [R=303,L]
+
+# --- Dataset-level metadata record: .../group26/dataset ---
+RewriteCond %{HTTP_ACCEPT} text/turtle [OR]
+RewriteCond %{HTTP_ACCEPT} application/rdf\+xml [OR]
+RewriteCond %{HTTP_ACCEPT} application/ld\+json
+RewriteRule ^dataset$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/metadata/dataset.ttl [R=303,L]
+
+RewriteRule ^dataset$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/metadata/dataset.ttl [R=303,L]
+
+# --- FAIRified data (Distribution): https://w3id.org/FAIR-course-UT/2026/group26/data ---
+RewriteCond %{HTTP_ACCEPT} text/turtle [OR]
+RewriteCond %{HTTP_ACCEPT} application/rdf\+xml [OR]
+RewriteCond %{HTTP_ACCEPT} application/ld\+json
+RewriteRule ^data$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/rdf/data.ttl [R=303,L]
+
+RewriteRule ^data$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/rdf/data.ttl [R=303,L]
+
+# --- Original (non-FAIR) distribution: .../group26/data/original ---
+RewriteRule ^data/original$ https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/data/raw_shipwrecks.csv [R=303,L]
+
+# --- Anything else under our namespace: the project landing page ---
+RewriteRule ^$ https://github.com/akshayasuresh414/fair-shipwrecks-group26 [R=302,L]

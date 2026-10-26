@@ -1,0 +1,42 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group08/ont
+    note: ontology redirects to the Turtle file
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/ontology/epl-ontology.ttl
+ 
+  - pid: https://w3id.org/FAIR-course-UT/2026/group08/data
+    note: FAIRified RDF data redirects to the Turtle file
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/data/rdf/epl-2425.ttl
+ 
+  - pid: https://w3id.org/FAIR-course-UT/2026/group08/original
+    note: original dataset redirects to the CSV file
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/data/original/premier-league-2024-2025-original.csv
+ 
+  - path: metadata/dataset
+    note: dataset metadata record
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/metadata/records/dataset.ttl
+ 
+  - path: metadata/distribution-original
+    note: metadata record of the original CSV distribution
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/metadata/records/distribution-original.ttl
+ 
+  - path: metadata/distribution-rdf
+    note: metadata record of the RDF distribution
+    status: 303
+    location: https://raw.githubusercontent.com/victordelgadoplacido/fair-epl-2425-group8/main/metadata/records/distribution-rdf.ttl
+ 
+  - pid: https://w3id.org/FAIR-course-UT/2026/group08/
+    note: group namespace redirects to the project repository
+    status: 302
+    location: https://github.com/victordelgadoplacido/fair-epl-2425-group8
+ 
+  - path: metadata/Not_Valid
+    note: names outside the pattern are not redirected
+    status: 404
+ 

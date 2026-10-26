@@ -1,0 +1,29 @@
+tests:
+  # Ontology
+  - pid: https://w3id.org/FAIR-course-UT/2026/group10/ont
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/ont/carcrash_ont.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group10/ont
+    accept: text/html,application/xhtml+xml
+    note: browsers get the same file
+    status: 303
+    location: https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/ont/carcrash_ont.ttl
+
+  # FAIRified data
+  - pid: https://w3id.org/FAIR-course-UT/2026/group10/data
+    accept: text/turtle
+    status: 303
+    location: https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/rdf/carcrash_dataset_clean.ttl
+
+  # Original data
+  - path: data/original
+    accept: text/csv
+    status: 303
+    location: https://raw.githubusercontent.com/jellevdbrink/fair-data-engineering/master/og/carcrash_dataset_original.csv
+
+  # Landing page
+  - pid: https://w3id.org/FAIR-course-UT/2026/group10/
+    status: 302
+    location: https://github.com/jellevdbrink/fair-data-engineering

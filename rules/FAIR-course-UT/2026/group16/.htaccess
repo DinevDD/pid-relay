@@ -1,0 +1,23 @@
+RewriteEngine on
+
+Header always append Vary Accept
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^ont(/1\.0\.0)?$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf [R=303,L]
+RewriteRule ^ont(/1\.0\.0)?$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/rdf/worldbank-projects.ttl [R=303,L]
+RewriteRule ^data$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/rdf/worldbank-projects.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv [R=303,L]
+RewriteRule ^data/original$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/original/worldbank-projects-original.csv [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data/clean$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/clean/worldbank-projects-clean.csv [R=303,L]
+RewriteRule ^data/clean$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/clean/worldbank-projects-clean.csv [R=303,L]
+
+RewriteRule ^metadata$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/metadata/dataset-public.ttl [R=303,L]
+
+RewriteRule ^$ https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata [R=302,L]

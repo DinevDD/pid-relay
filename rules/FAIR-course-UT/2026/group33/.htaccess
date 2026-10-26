@@ -1,0 +1,48 @@
+# Group 33: https://w3id.org/FAIR-course-UT/2026/group33/...
+# Municipal results of the Dutch information security standards measurement (begin 2026).
+# Maintainer: Sounic Akkaraju, GitHub username: ImSounic
+# Targets are the project's GitHub Pages site. Fragments (ont#Term, data#resource) are never
+# sent to the server, so ont and data resolve to the documents that describe those resources.
+RewriteEngine on
+
+# Ontology: Turtle, RDF/XML or HTML documentation; Turtle when nothing is asked for.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont$ https://imsounic.github.io/fair-ut-group33/ont/ont.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} application/rdf\+xml
+RewriteRule ^ont$ https://imsounic.github.io/fair-ut-group33/ont/ont.owl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^ont$ https://imsounic.github.io/fair-ut-group33/ont/ [R=303,L]
+
+RewriteRule ^ont$ https://imsounic.github.io/fair-ut-group33/ont/ont.ttl [R=303,L]
+
+# FAIRified data: assertions, results, hosts and attributions are data#... resources.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data$ https://imsounic.github.io/fair-ut-group33/dist/fairified.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data$ https://imsounic.github.io/fair-ut-group33/ [R=303,L]
+
+RewriteRule ^data$ https://imsounic.github.io/fair-ut-group33/dist/fairified.ttl [R=303,L]
+
+# Distribution files and the deposited source snapshot.
+RewriteRule ^dist/([A-Za-z0-9][A-Za-z0-9._-]*)$ https://imsounic.github.io/fair-ut-group33/dist/$1 [R=302,L]
+RewriteRule ^source/([A-Za-z0-9][A-Za-z0-9._-]*)$ https://imsounic.github.io/fair-ut-group33/source/$1 [R=302,L]
+
+# Metadata records exported from the FAIR Data Point (persistentUrl = .../group33/fdp).
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^fdp$ https://imsounic.github.io/fair-ut-group33/metadata.html [R=303,L]
+
+RewriteRule ^fdp$ https://imsounic.github.io/fair-ut-group33/fdp/index.ttl [R=303,L]
+
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^fdp/(catalog|dataset|distribution|profile)/([0-9a-f-]{36})$ https://imsounic.github.io/fair-ut-group33/metadata.html [R=303,L]
+
+RewriteRule ^fdp/(catalog|dataset|distribution|profile)/([0-9a-f-]{36})$ https://imsounic.github.io/fair-ut-group33/fdp/$1/$2.ttl [R=303,L]
+
+# SHACL shapes of the metadata schemas.
+RewriteRule ^shapes/([a-z0-9-]+)$ https://imsounic.github.io/fair-ut-group33/shapes/$1.ttl [R=303,L]
+
+# The namespace itself: the project's landing page.
+RewriteRule ^$ https://imsounic.github.io/fair-ut-group33/ [R=302,L]

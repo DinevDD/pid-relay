@@ -1,0 +1,42 @@
+# Group 26 - expected redirects for our .htaccess rules.
+# Replace akshayasuresh414/fair-shipwrecks-group26 below to match your .htaccess, consistently.
+tests:
+  - path: ont
+    accept: text/turtle
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/ontology/group26-ont.ttl
+
+  - path: ont
+    accept: text/html
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/ontology/group26-ont.ttl
+
+  - path: dataset
+    accept: text/turtle
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/metadata/dataset.ttl
+
+  - path: dataset
+    accept: text/html
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/metadata/dataset.ttl
+
+  - path: data
+    accept: text/turtle
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/rdf/data.ttl
+
+  - path: data
+    accept: text/html
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/blob/main/rdf/data.ttl
+
+  - path: data/original
+    note: original (non-FAIR) CSV distribution
+    status: 303
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26/raw/main/data/raw_shipwrecks.csv
+
+  - path: ""
+    note: group namespace root redirects to the project landing page
+    status: 302
+    location: https://github.com/akshayasuresh414/fair-shipwrecks-group26

@@ -1,0 +1,13 @@
+RewriteEngine on
+
+# FAIRified data in RDF: people (browsers) get the GitLab page, machines the raw Turtle file
+RewriteCond %{HTTP_ACCEPT} text/html
+RewriteRule ^data$ https://gitlab.utwente.nl/s2938804/fair-g24/-/blob/main/data/data.ttl [R=303,L]
+
+RewriteRule ^data$ https://gitlab.utwente.nl/s2938804/fair-g24/-/raw/main/data/data.ttl [R=303,L]
+
+# Original dataset as downloaded from Kaggle
+RewriteRule ^original$ https://gitlab.utwente.nl/s2938804/fair-g24/-/raw/main/data/original.csv [R=302,L]
+
+# The namespace itself: the project repository
+RewriteRule ^$ https://gitlab.utwente.nl/s2938804/fair-g24 [R=302,L]

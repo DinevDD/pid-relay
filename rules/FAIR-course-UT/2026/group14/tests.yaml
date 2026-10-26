@@ -1,0 +1,15 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group14/ont
+    note: Ontology redirect
+    status: 302
+    location: https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/ontology/ontology.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group14/data
+    note: FAIRified RDF data redirect
+    status: 302
+    location: https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/data/fairified-earthquakes.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group14/csv
+    note: Original CSV data redirect
+    status: 302
+    location: https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/data/earthquakes.csv

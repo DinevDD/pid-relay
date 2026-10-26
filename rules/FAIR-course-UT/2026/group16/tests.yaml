@@ -1,0 +1,76 @@
+tests:
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
+    accept: application/rdf+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/ont
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
+
+  - path: ont/1.0.0
+    accept: application/rdf+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/ontology/group16-ontology.rdf
+
+  - path: ont/1.0.0
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/ontology/group16-ontology.rdf
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
+    accept: text/turtle
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/rdf/worldbank-projects.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/data
+    accept: text/html,application/xhtml+xml
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/rdf/worldbank-projects.ttl
+
+  - path: data/original
+    accept: text/csv
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/original/worldbank-projects-original.csv
+
+  - path: data/original
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/original/worldbank-projects-original.csv
+
+  - path: data/clean
+    accept: text/csv
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/data/clean/worldbank-projects-clean.csv
+
+  - path: data/clean
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/blob/main/data/clean/worldbank-projects-clean.csv
+
+  - path: metadata
+    accept: text/turtle
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/metadata/dataset-public.ttl
+
+  - path: metadata
+    accept: text/html
+    status: 303
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata/raw/main/metadata/dataset-public.ttl
+
+  - pid: https://w3id.org/FAIR-course-UT/2026/group16/
+    status: 302
+    location: https://github.com/Shashank-Amanana/fairdataproject-group16-worldbankdata
+
+  - path: ontology
+    status: 404
+
+  - path: data/originals
+    status: 404
+
+  - path: data/cleaned
+    status: 404
+
+  - path: metadata/dataset
+    status: 404

@@ -1,0 +1,22 @@
+RewriteEngine on
+
+# Ontology and all its terms
+RewriteRule ^ont/?$ https://github.com/djactor/FAIRifaction-project/raw/main/ontology/benelux-population-ontology.ttl [R=303,L]
+
+# The FAIRified data as RDF Turtle
+RewriteRule ^data/rdf/?$ https://github.com/djactor/FAIRifaction-project/raw/main/data/rdf/benelux-city-population.ttl [R=302,L]
+
+# The original CSV
+RewriteRule ^data/csv/?$ https://github.com/djactor/FAIRifaction-project/raw/main/data/original/Benelux_data.csv [R=302,L]
+
+# Data namespace 
+RewriteRule ^data/?$ https://github.com/djactor/FAIRifaction-project/raw/main/data/rdf/benelux-city-population.ttl [R=303,L]
+
+# Metadata schema terms 
+RewriteRule ^metadata-schema/?$ https://github.com/djactor/FAIRifaction-project/tree/main/metadata/schemas [R=303,L]
+
+# SHACL shapes for the data 
+RewriteRule ^shapes/?$ https://github.com/djactor/FAIRifaction-project/raw/main/shapes/population-data-shape.ttl [R=303,L]
+
+# The namespace itself
+RewriteRule ^$ https://github.com/djactor/FAIRifaction-project [R=302,L]

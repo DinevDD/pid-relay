@@ -1,0 +1,50 @@
+# FAIR Data Engineering 2026-1A, group 39 - Palmer penguins observations.
+# Namespace: https://w3id.org/FAIR-course-UT/2026/group39/
+#
+# Every identifier below resolves to an artefact published in the group
+# repository (public, no authentication). The IRIs declared inside the
+# ontology and the FDP records use exactly these identifiers.
+
+RewriteEngine on
+
+# Ontology document. The ontology declares .../group39/ont as its IRI and
+# .../group39/ont#Concept as the term namespace.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/ontology/penguin-observations-ontology.ttl [R=303,L]
+
+RewriteRule ^ont$ https://gitlab.utwente.nl/s3820653/fair-group39/-/blob/master/ontology/penguin-observations-ontology.ttl [R=303,L]
+
+# Version IRI (owl:versionIRI .../group39/ont/0.1.0): the current version
+# still is that file, so the identifier resolves to it.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^ont/[0-9]+\.[0-9]+\.[0-9]+$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/ontology/penguin-observations-ontology.ttl [R=303,L]
+
+RewriteRule ^ont/[0-9]+\.[0-9]+\.[0-9]+$ https://gitlab.utwente.nl/s3820653/fair-group39/-/blob/master/ontology/penguin-observations-ontology.ttl [R=303,L]
+
+# Data namespace of the observations (.../group39/data#73 and friends).
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^data$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations.ttl [R=303,L]
+
+RewriteRule ^data$ https://gitlab.utwente.nl/s3820653/fair-group39/-/blob/master/data/fair/penguin_observations.ttl [R=303,L]
+
+# The dataset as one thing: RDF consumers get the merged graph (ontology plus
+# data), browsers get the project landing page.
+RewriteCond %{HTTP_ACCEPT} text/turtle
+RewriteRule ^dataset$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations_merged.ttl [R=303,L]
+
+RewriteRule ^dataset$ https://gitlab.utwente.nl/s3820653/fair-group39 [R=303,L]
+
+# Distributions: each identifier names one published file, so it redirects to
+# that file and not to a page about it.
+RewriteRule ^data/original/penguins\.csv$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/original/penguins.csv [R=302,L]
+
+RewriteRule ^data/original/penguins_raw\.csv$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/original/penguins_raw.csv [R=302,L]
+
+RewriteRule ^data/fair/penguin_observations\.ttl$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations.ttl [R=302,L]
+
+RewriteRule ^data/fair/penguin_observations_merged\.ttl$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/data/fair/penguin_observations_merged.ttl [R=302,L]
+
+RewriteRule ^openrefine/penguins_clean\.csv$ https://gitlab.utwente.nl/s3820653/fair-group39/-/raw/master/openrefine/penguins_clean.csv [R=302,L]
+
+# Namespace root: the project repository.
+RewriteRule ^$ https://gitlab.utwente.nl/s3820653/fair-group39 [R=303,L]

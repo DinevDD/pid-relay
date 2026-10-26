@@ -1,0 +1,14 @@
+Options +FollowSymLinks
+RewriteEngine on
+
+# 1. Ontology Redirect
+RewriteRule ^ont$ https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/ontology/ontology.ttl [R=302,L]
+
+# 2. FAIRified RDF Data Redirect
+RewriteRule ^data$ https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/data/fairified-earthquakes.ttl [R=302,L]
+
+# 3. Original CSV Data Redirect
+RewriteRule ^csv$ https://github.com/OlafAdams/FAIR-Earthquakes/raw/main/data/earthquakes.csv [R=302,L]
+
+# Default Base URL Redirect (points to repository homepage)
+RewriteRule ^$ https://github.com/OlafAdams/FAIR-Earthquakes [R=302,L]
