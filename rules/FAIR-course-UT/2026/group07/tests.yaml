@@ -14,7 +14,15 @@ tests:
 - path: distribution/rivers-ttl
   accept: text/html
   status: 303
-  location: https://github.com/DinevDD/global-rivers-fairification/blob/main/data/global-rivers-dataset-csv-RDF.ttl
+  location: https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/global-rivers-dataset-csv-RDF.ttl
+- path: distribution/rivers-original-csv
+  accept: text/csv
+  status: 303
+  location: https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/original/global_rivers_dataset.csv
+- path: distribution/rivers-original-csv
+  accept: text/html
+  status: 303
+  location: https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/data/original/global_rivers_dataset.csv
 - path: metadata/rivers
   accept: text/turtle
   status: 303
