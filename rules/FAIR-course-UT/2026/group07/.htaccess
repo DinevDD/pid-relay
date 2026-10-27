@@ -1,5 +1,8 @@
 RewriteEngine On
 
+#Group 7 namespace landing page
+RewriteRule ^$ https://github.com/DinevDD/global-rivers-fairification [R=303,L]
+
 #Dataset PID
 RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
 RewriteRule ^dataset/rivers$ https://raw.githubusercontent.com/DinevDD/global-rivers-fairification/main/metadata/global-rivers-dataset-SCHACL-schema.ttl [R=303,L]
