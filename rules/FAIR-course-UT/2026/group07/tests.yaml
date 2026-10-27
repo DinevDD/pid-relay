@@ -253,3 +253,7 @@ tests:
   status: 404
 - path: length-category/unclassified
   status: 404
+- pid: https://w3id.org/FAIR-course-UT/2026/group07/
+  accept: text/html
+  status: 303
+  location: https://github.com/DinevDD/global-rivers-fairification
